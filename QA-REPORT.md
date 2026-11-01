@@ -198,3 +198,59 @@ Re-run the tests with `qa.py --full` and `journeys.py`. Ask for the scripts if y
 - `pages/04c_story_pages.py` (new): founder, farmers, process, philosophy, commitment, FAQ, 404
 - `pages/05_lab.py`, `pages/07_contact.py`, `pages/08_cart.py`: links, headings, checkout
 - `pages/09_membership.py`: terms section, working links, softened FAQ answers
+
+---
+
+# Addendum: homepage rebuilt on the live-site layout, with editable banners
+
+## What changed
+- **Header (every page):**
+  - offer ticker with several messages
+  - nav: Home, Shop (mega menu), Our Story (dropdown), Lab Reports, Hampers, Benefit Club
+  - logo in the centre
+  - search, account and cart on the right
+  - trust strip: lab reports, traditional processing, delivery across India, secure checkout
+- Below 1280 px the search box becomes an icon that opens it. Below 1200 px the nav moves into the menu drawer.
+- **Hero carousel** (`config/banners.js`) uses the live banners and links:
+  - Diwali Sale, going to Shop
+  - Celebrate Diwali hampers, going to Hampers
+  - each banner has separate desktop (3:1) and mobile (4:3) images
+- **Discovery block** (`config/homepage.js`):
+  - two promo tiles (Diwali Hampers, Gond Laddoo), each with its own link
+  - category carousel: A2 Ghee, Oils, Atta & Grains, Pickles, Breakfast, Honey, Nut Butter, Immunity, Hampers, using the live site's category images
+- **Section order:** Bestsellers (5) → Shop by Need (excludes the 5 bestsellers) → Our Standards → Explore our products (every category, in tabs) → Product in Focus → Traditional Process (photos + video) → Customer Stories → Our Story → Rosier Parivaar → Recipes & Knowledge → Footer.
+
+## New components and files
+- `config/banners.js`, `config/homepage.js`, `config/README.md` (editing guide)
+- `js/render.js`: ticker, banner carousel, promo tiles, category carousel. It renders from config at page load.
+- `css/home.css`: header, ticker, carousel, discovery, bestsellers, explore tabs, Our Story
+- `source/build.py`: new header and nav, config loader. A rebuild never overwrites `config/`.
+- `source/pages/01_home.py`: new homepage
+- `js/site.js`: search icon toggle
+
+## Acceptance tests (all passed)
+- **Banner and category tests:** 42/42.
+  - autoplay at about 5 s
+  - pauses on hover, in a hidden tab and when the keyboard is inside it
+  - arrows, dots, keyboard arrows and swipe all work
+  - only the first banner loads up front, with high priority
+  - mobile uses the mobile image
+  - 3:1 and 4:3 boxes, so images are not stretched
+  - CTA and banner clicks work
+  - editing the config works for: `active:false`, start/end dates, `order`, image/link/CTA changes, and a single banner (no autoplay)
+  - reduced motion turns off autoplay and the ticker scroll
+  - the ticker shows all 4 messages
+  - each promo tile has its own destination
+  - all 9 categories open the right page
+  - category arrows and mobile swipe work
+  - the search icon opens search with suggestions
+  - no JS errors
+- **Journeys A–E:** 39/39, covering search, filters, cart, checkout handoff, product page, lab reports, membership and mobile nav.
+- **Full sweep:** 72 pages × 7 widths, 0 issues. That covers overflow, contrast, headings, alt text, link names, canonicals, links and duplicate titles.
+- **Header spacing:** checked at 360–1920 px. Nothing overlaps the logo.
+
+## Limits of this pass
+- The test machine can't load Shopify images. Layout and cropping were tested with placeholder images of the exact same sizes. The real banner, promo and category URLs were confirmed loading, with the right sizes, in your browser on rosierfoods.com.
+- **Do a final look on the deployed GitHub Pages URL.**
+- The homepage h1 ("Rosier Foods: Reviving the Tradition of Old Bharat…") is for screen readers only, because the visible headline is part of the banner artwork.
+- Live offer copy (the Diwali Sale, freebie tiers) comes from rosierfoods.com. Turn it off in `config/` when the sale ends, and update the FAQ Offers answers.

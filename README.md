@@ -67,3 +67,14 @@ These appear on the site with a dashed label or an owner note. Search the source
 - Membership: discount stacking, hamper exclusion, auto-renewal, fee refunds, and the direct join link (`JOIN_URL` in data.py)
 - Online nutrition tables
 - Batch-level traceability
+
+## Homepage update (live-site layout + editable banners, 1 Nov 2026)
+- The homepage now follows the live rosierfoods.com layout:
+  - scrolling offer ticker
+  - nav on the left, logo in the centre, search, account and cart on the right
+  - trust strip
+  - large rounded banner carousel
+  - two promo tiles beside a category carousel
+- Then: Bestsellers → Shop by Need → Our Standards → Explore our products (full catalogue by category) → Product in Focus → Our Traditional Process → Customer Stories → Our Story → Rosier Parivaar → Recipes & Knowledge.
+- **Banners, ticker messages, promo tiles and categories are edited in `config/`, with no rebuild. See `config/README.md`.**
+- The nav is now Home, Shop, Our Story, Lab Reports, Hampers and Benefit Club, on every page.
