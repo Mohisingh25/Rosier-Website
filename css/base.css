@@ -5,21 +5,23 @@
    ========================================================= */
 
 :root{
-  --brown:#A56312;
-  --brown-600:#8A5210;
+  --brown:#784900;
+  --brown-2:#A56312;
+  --brown-600:#5E3900;
   --brown-deep:#3E2610;
   --brown-ink:#2A1A0B;
   --gold:#C9973F;
   --gold-soft:#E8C77E;
   --cream:#FEFCF6;
   --cream-2:#FAF4E6;
-  --sand:#F1E6CC;
-  --line:#E9DCC0;
+  --sand:#EFE7D6;
+  --beige:#E7E0CE;
+  --line:#E7E0CE;
   --yellow:#FFF5AD;
-  --mint:#D9F2D5;
-  --olive:#5F6B3A;
+  --mint:#F3EBDA;
+  --olive:#784900;
   --text:#3A2A1A;
-  --muted:#7A6A55;
+  --muted:#6B5A45;
 
   --serif:"Brygada 1918", Georgia, serif;
   --sans:"Poppins", system-ui, sans-serif;
@@ -96,7 +98,7 @@ button{font:inherit;cursor:pointer}
   radial-gradient(1200px 500px at 85% 20%,rgba(255,245,173,.55),transparent 60%),
   linear-gradient(180deg,var(--cream) 0%,var(--cream-2) 100%)}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.hero__glow{position:absolute;width:520px;height:520px;border-radius:50%;left:-180px;bottom:-260px;background:radial-gradient(circle,rgba(217,242,213,.7),transparent 65%);filter:blur(10px)}
+.hero__glow{position:absolute;width:520px;height:520px;border-radius:50%;left:-180px;bottom:-260px;background:radial-gradient(circle,rgba(231,224,206,.6),transparent 65%);filter:blur(10px)}
 .hero__grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .hero__title{font-size:clamp(46px,6.6vw,84px);font-weight:500;letter-spacing:-.015em;margin-top:18px;line-height:1.02}
 .hero__title em{font-style:italic;color:var(--brown)}
@@ -160,10 +162,10 @@ li:hover .ico,.why-card:hover .ico{transform:translateY(-3px) rotate(-6deg)}
 .plan__price{font-family:var(--serif);font-size:64px;font-weight:600;line-height:1;margin-top:14px;color:var(--brown-ink)}
 .plan__price .cur{font-size:30px;vertical-align:top;position:relative;top:8px;margin-right:2px;color:var(--brown)}
 .plan__per{font-size:13px;color:var(--muted);margin-top:10px}
-.plan__save{display:inline-block;margin-top:12px;padding:4px 12px;border-radius:999px;background:var(--mint);color:#2F5B2A;font-size:12px;font-weight:500}
+.plan__save{display:inline-block;margin-top:12px;padding:4px 12px;border-radius:999px;background:var(--mint);color:var(--brown-ink);font-size:12px;font-weight:500}
 .plan__list{display:flex;flex-direction:column;gap:13px;font-size:14.5px;flex:1}
 .plan__list li{display:flex;gap:12px;align-items:flex-start}
-.plan__list svg{width:18px;height:18px;margin-top:3px;color:var(--olive);background:rgba(95,107,58,.1);border-radius:50%;padding:3px;box-sizing:content-box}
+.plan__list svg{width:18px;height:18px;margin-top:3px;color:var(--olive);background:rgba(120,73,0,.08);border-radius:50%;padding:3px;box-sizing:content-box}
 .plan__list b{font-weight:600;color:var(--brown-ink)}
 .plan__tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);border:1px solid var(--gold-soft);padding:3px 10px;border-radius:999px;background:var(--cream)}
 
@@ -177,7 +179,7 @@ li:hover .ico,.why-card:hover .ico{transform:translateY(-3px) rotate(-6deg)}
 .plan--featured .plan__price{color:#FFF7E3}
 .plan--featured .plan__price .cur{color:var(--gold-soft)}
 .plan--featured .plan__per{color:#CDB894}
-.plan--featured .plan__save{background:rgba(217,242,213,.15);color:var(--mint)}
+.plan--featured .plan__save{background:rgba(255,247,227,.14);color:var(--mint)}
 .plan--featured .plan__list b{color:#fff}
 .plan--featured .plan__list svg{color:var(--gold-soft);background:rgba(232,199,126,.14)}
 .plan__ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);padding:6px 18px;border-radius:0 0 12px 12px;background:linear-gradient(135deg,#E8C77E,#C9973F);color:var(--brown-ink);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;z-index:1}

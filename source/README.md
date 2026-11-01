@@ -2,11 +2,11 @@
 
 Open `index.html` in any browser (you need to be online: product photos load straight from your live Shopify store).
 
-## What's inside — 63 pages
+## What's inside — 72 pages
 - `index.html` — Homepage, same structure as the live rosierfoods.com homepage (hero slider, hamper + laddoo tiles, category icons, village illustration, Loved Across Generations, New Arrivals, More Than a Brand counter, Experience video, values, heritage, testimonials, trust icons, footer)
 - `shop.html` — All products
 - `collection-ghee.html`, `collection-stone-press-oil.html`, `collection-pickles.html`, `collection-atta.html`, `collection-healthy-snacking.html`, `collection-immunity-booster.html` — the six category pages, same products and order as the live collections
-- `product-<handle>.html` — one page for each of the 46 products (`product.html` is the ghee page)
+- `product-<handle>.html` — one page for each product (`product.html` now redirects to the ghee page)
 - `our-story.html`, `lab-reports.html` (links to the real report PDFs), `hampers.html`, `contact.html`, `cart.html`, `membership.html`
 
 ## Images
@@ -31,7 +31,7 @@ Run `python3 build.py` inside `source/` to regenerate every page.
 - Collection pages: price slider, rating, offer and pack-type filters, plus sorting
 - Homepage: Shop by Need tabs, tabbed bestsellers, farm-to-kitchen journey, lab report finder, review summary, founder note, FAQ
 - Mobile bottom navigation, WhatsApp chat button
-Checkout buttons are not connected to Shopify; your developer wires them to the store's checkout when this goes live.
+Checkout hands the cart to rosierfoods.com using Shopify cart links (`/cart/VARIANT:QTY,…`), so payment and order confirmation happen only on your real Shopify checkout.
 
 ## Audit pass (Competitive Website Audit, 1 Nov 2026)
 - Homepage follows the recommended order: hero → category/need → bestsellers → proof & standards → process → founder & brand story → reviews → membership → guides & FAQ. Duplicate carousels, the unlabeled counter, the offer band and decorative illustration strips were removed.
@@ -50,3 +50,20 @@ Checkout buttons are not connected to Shopify; your developer wires them to the 
 ## Animations
 Crossfading hero slider, scroll reveals, product photo swap on hover, rolling number counter, scrolling strips,
 hover lifts. All motion switches off for visitors who've turned on "reduce motion".
+
+## QA pass (master prompt, 1 Nov 2026)
+- New pages: founder, farmers, process, philosophy, commitment, faq, 404; `standards.html` is now "Know Your Food. Know Its Journey." with a product selector.
+- New collections: honey, nut butters. Shop page: category, price, pack-size and type filters; search by name, ingredient and keyword, with an empty state.
+- Product pages: PIN check (format check only; serviceability is confirmed at checkout), product FAQs, nutrition row, variant IDs stored on cart lines.
+- Membership: terms section (price, duration, inclusions, exclusions), with owner-pending items marked.
+- Visibility: fixed the CSS rule that wiped dark backgrounds (Most Popular card, Join Rosier Parivaar band, shop promo).
+- SEO: canonical, Open Graph, sitemap.xml, robots.txt and JSON-LD on every page.
+
+## Items marked "To be added by Rosier"
+These appear on the site with a dashed label or an owner note. Search the source for `owner-note`, `tbd` and `OWNER`.
+- Lab names and test dates
+- Farmer profiles (with consent)
+- Founder portrait and quote
+- Membership: discount stacking, hamper exclusion, auto-renewal, fee refunds, and the direct join link (`JOIN_URL` in data.py)
+- Online nutrition tables
+- Batch-level traceability

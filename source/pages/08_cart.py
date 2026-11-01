@@ -33,14 +33,15 @@ BODY = f'''
       </div>
 
       <aside class="summary reveal" style="--d:.1s">
-        <h3>Order summary</h3>
+        <h2 class="h3">Order summary</h2>
         <div class="sum-row"><span>MRP total</span><b id="s-mrp"></b></div>
         <div class="sum-row"><span>Discount on MRP</span><b id="s-save" style="color:var(--olive)"></b></div>
         <div class="sum-row"><span>Shipping</span><b>Shown at checkout, before you pay</b></div>
-        <div class="coupon"><input placeholder="Coupon code" aria-label="Coupon code"><button class="btn btn--outline btn--sm">Apply</button></div>
+        <p class="tax">Have a coupon code? Enter it on the secure checkout page.</p>
         <div class="sum-row sum-row--total"><span>Total</span><b id="s-total"></b></div>
         <p class="tax">Tax included.</p>
-        <a href="#" class="btn btn--primary btn--block">Checkout <svg><use href="#i-arrow"/></svg></a>
+        <a href="cart.html" id="checkout" class="btn btn--primary btn--block">Checkout on rosierfoods.com <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <p class="tax" style="text-align:center">You'll finish payment on Rosier's secure Shopify checkout. Your order is confirmed only after payment there.</p>
         <div class="club-upsell">Benefit Club members get 15% off every order. That's about <b id="s-club"></b> on this cart.<br><a href="membership.html">Join from ₹299 →</a></div>
         <p class="secure"><svg><use href="#i-truck"/></svg>Usually delivered in 3–5 days</p><p class="secure" style="margin-top:4px"><svg><use href="#i-check"/></svg><a href="standards.html#returns" style="text-decoration:underline">2-day returns on damaged or wrong items</a></p>
       </aside>

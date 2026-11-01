@@ -18,11 +18,11 @@
   if (!cart) { cart = []; }
   function save() { store.set('rf_cart', cart); render(); }
   function line(h, label, price, mrp) { return cart.filter(function (l) { return l.h === h && l.v === label; })[0]; }
-  function add(h, q, label, price, mrp) {
+  function add(h, q, label, price, mrp, vid) {
     var p = BY[h]; if (!p) return;
-    label = label || p.s; price = price || p.p; mrp = mrp || p.m;
+    label = label || p.s; price = price || p.p; mrp = mrp || p.m; vid = vid || p.v;
     var l = line(h, label);
-    if (l) l.q += q; else cart.push({ h: h, v: label, p: price, m: mrp, q: q });
+    if (l) { l.q += q; l.vid = l.vid || vid; } else cart.push({ h: h, v: label, p: price, m: mrp, q: q, vid: vid });
     save(); openDrawer(p.n);
   }
   function totals() {
@@ -42,7 +42,7 @@
     '<div class="cdr__up"><p class="opt-label">Families also add</p><div class="cdr__upl"></div></div>' +
     '<footer class="cdr__foot"><div class="cdr__club"></div><div class="sum-row"><span>MRP total</span><b class="cdr__mrp"></b></div><div class="sum-row"><span>You save</span><b class="cdr__save" style="color:var(--olive)"></b></div>' +
     '<div class="sum-row sum-row--total"><span>Subtotal</span><b class="cdr__sub"></b></div><p class="tax">Tax included. Shipping calculated at checkout.</p>' +
-    '<a href="cart.html" class="btn btn--outline btn--block">View Cart</a><a href="cart.html#checkout" class="btn btn--primary btn--block" style="margin-top:8px">Checkout Securely <svg><use href="#i-arrow"/></svg></a></footer></div>';
+    '<a href="cart.html" class="btn btn--outline btn--block">View Cart</a><a href="cart.html" class="btn btn--primary btn--block cdr__checkout" style="margin-top:8px">Checkout on rosierfoods.com</a><p class="tax" style="text-align:center;margin-top:8px">Payment and order confirmation happen securely on rosierfoods.com.</p></footer></div>';
   document.body.appendChild(dr);
   function openDrawer(addedName) {
     var a = $('.cdr__added', dr);
@@ -63,8 +63,13 @@
     return next ? 'Add <b>' + inr(Math.ceil(next[0] - sub)) + '</b> more to get <b>' + next[1] + '</b> 🎁' : 'You’ve unlocked <b>a free bottle + tumbler</b> 🎉';
   }
 
+  function checkoutUrl() {
+    var ok = cart.length && cart.every(function (l) { return l.vid || (BY[l.h] && BY[l.h].v); });
+    return ok ? 'https://www.rosierfoods.com/cart/' + cart.map(function (l) { return (l.vid || BY[l.h].v) + ':' + l.q; }).join(',') : 'cart.html';
+  }
   function render() {
     var t = totals();
+    $$('.cdr__checkout, #checkout').forEach(function (a) { a.href = checkoutUrl(); });
     $$('.cart-count').forEach(function (c) { c.textContent = t.n; c.classList.toggle('has', t.n > 0); });
     $('.cdr__n', dr).textContent = t.n ? '(' + t.n + ')' : '';
     $('.cdr__giftmsg', dr).innerHTML = giftHTML(t.sub);
@@ -120,7 +125,7 @@
       e.preventDefault();
       if (b.id === 'pdp-add' || b.classList.contains('satc__btn') || b.hasAttribute('data-buy')) {
         var v = $('.variant.on'), q = parseInt(($('#pdp-qty') || {}).value, 10) || 1;
-        add(b.dataset.h, q, v ? v.textContent : null, v ? +v.dataset.price : null, v ? +v.dataset.mrp : null);
+        add(b.dataset.h, q, v ? v.textContent : null, v ? +v.dataset.price : null, v ? +v.dataset.mrp : null, v ? +v.dataset.vid : null);
       } else add(b.dataset.h, 1);
       b.classList.add('pop'); setTimeout(function () { b.classList.remove('pop'); }, 500);
       if (b.hasAttribute('data-buy')) { closeDrawer(); location.href = 'cart.html'; }
@@ -136,7 +141,7 @@
   function norm(s) { return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' '); }
   function searchFor(q) {
     q = norm(q).trim();
-    var res = q ? RF.p.filter(function (p) { var t = norm(p.n + ' ' + p.cn + ' ' + p.s); return q.split(/\s+/).every(function (w) { return t.indexOf(w) > -1; }); }) : (RF.best || []).map(function (h) { return BY[h]; });
+    var res = q ? RF.p.filter(function (p) { var t = norm(p.n + ' ' + p.cn + ' ' + p.s + ' ' + (p.k || '')); return q.split(/\s+/).every(function (w) { return t.indexOf(w) > -1; }); }) : (RF.best || []).map(function (h) { return BY[h]; });
     return res.slice(0, 7);
   }
   function showSearch(inp) {
@@ -146,7 +151,8 @@
     var q = inp.value, res = searchFor(q);
     sp.innerHTML = '<p class="srch__h">' + (q ? (res.length ? 'Products' : 'No match for “' + esc(q) + '”. Try ghee, oil or atta.') : 'Popular right now') + '</p>' +
       res.map(function (p) { return '<a class="srch__r" href="product-' + p.h + '.html"><img src="' + p.i + '&width=120" alt=""><span><b>' + esc(p.n) + '</b><small>' + esc(p.cn) + ' · ' + esc(p.s) + '</small></span><em>' + inr(p.p) + '</em></a>'; }).join('') +
-      (q && res.length ? '<a class="srch__all" href="shop.html?q=' + encodeURIComponent(q) + '">See all results →</a>' : '');
+      (q && res.length ? '<a class="srch__all" href="shop.html?q=' + encodeURIComponent(q) + '">See all results →</a>' : '') +
+      (q && !res.length ? '<p class="srch__h">Try: <a href="shop.html?q=ghee">ghee</a> · <a href="shop.html?q=atta">atta</a> · <a href="shop.html?q=honey">honey</a> · <a href="shop.html?q=oil">oil</a></p>' : '');
     sp.hidden = false;
   }
   $$('input[type=search]').forEach(function (inp) {
@@ -154,7 +160,7 @@
     inp.setAttribute('autocomplete', 'off');
     inp.addEventListener('focus', function () { showSearch(inp); });
     inp.addEventListener('input', function () { showSearch(inp); });
-    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var a = $('.srch__r', sp); if (a) location.href = a.href; } });
+    inp.setAttribute('aria-autocomplete', 'list');
   });
   document.addEventListener('click', function (e) { if (!e.target.closest('.srch') && !e.target.closest('input[type=search]')) closeSearch(); });
   addEventListener('resize', closeSearch);
@@ -214,21 +220,21 @@
     var range = $('#f-price', fl), out = $('#f-price-v', fl);
     var applyF = function () {
       var max = +range.value, top = $('#f-top', fl).checked, deal = $('#f-deal', fl).checked;
-      var packs = $$('.f-pack:checked', fl).map(function (c) { return c.value; }), n = 0;
+      var packs = $$('.f-pack:checked', fl).map(function (c) { return c.value; }), types = $$('.f-type:checked', fl).map(function (c) { return c.value; }), n = 0;
+      var q = (new URLSearchParams(location.search).get('q') || '').toLowerCase().trim();
       out.textContent = inr(max);
       $$('.pcard', grid).forEach(function (c) {
-        var ok = +c.dataset.price <= max && (!top || +c.dataset.rating >= 4.8) && (!deal || +c.dataset.off >= 20) && (!packs.length || packs.indexOf(c.dataset.pack) > -1);
-        var q = new URLSearchParams(location.search).get('q');
-        if (q) ok = ok && c.textContent.toLowerCase().indexOf(q.toLowerCase()) > -1;
+        var ok = +c.dataset.price <= max && (!top || +c.dataset.rating >= 4.8) && (!deal || +c.dataset.off >= 20) && (!packs.length || packs.indexOf(c.dataset.pack) > -1) && (!types.length || types.indexOf(c.dataset.type) > -1);
+        if (q) { var pr = RF.p[+c.dataset.i] || {}; var hay = norm(c.textContent + ' ' + (pr.k || '') + ' ' + (pr.cn || '')); ok = ok && q.split(/\s+/).every(function (w) { return hay.indexOf(norm(w).trim()) > -1; }); }
         c.classList.toggle('hide', !ok); if (ok) n++;
       });
       var cnt = $('#shop-count'); if (cnt) cnt.textContent = n + (n === 1 ? ' product' : ' products');
       var none = $('.no-res'); if (none) none.hidden = n > 0;
     };
     fl.addEventListener('input', applyF);
-    var rs = $('#f-reset', fl); if (rs) rs.addEventListener('click', function () { range.value = range.max; $$('input[type=checkbox]', fl).forEach(function (c) { c.checked = false; }); applyF(); });
+    var rs = $('#f-reset', fl); if (rs) rs.addEventListener('click', function () { range.value = range.max; $$('input[type=checkbox]', fl).forEach(function (c) { c.checked = false; }); if (location.search) { history.replaceState(null, '', location.pathname); var t = $('#shop-title'); if (t) t.textContent = t.dataset.t || 'All products'; } applyF(); });
     var ft = $('.f-toggle'); if (ft) ft.addEventListener('click', function () { fl.classList.toggle('open'); });
-    var q0 = new URLSearchParams(location.search).get('q'); if (q0) { var t = $('#shop-title'); if (t) t.textContent = 'Results for “' + q0 + '”'; }
+    var q0 = new URLSearchParams(location.search).get('q'); if (q0) { var t = $('#shop-title'); if (t) t.textContent = 'Results for “' + q0 + '”'; $$('input[name=q]').forEach(function (i) { i.value = q0; }); var pr = $('.shop-promo'); if (pr) pr.style.display = 'none'; }
     applyF();
   }
 
@@ -246,6 +252,33 @@
   /* ---------------- lab report picker ---------------- */
   var lp = $('#lab-pick');
   if (lp) { var go = $('#lab-go'); lp.addEventListener('change', function () { go.href = lp.value; go.classList.toggle('disabled', !lp.value); }); }
+
+  /* ---------------- PDP: variant id, PIN checker ---------------- */
+  var pin = $('#pin-form');
+  if (pin) pin.addEventListener('submit', function (e) {
+    e.preventDefault(); var v = $('#pin', pin).value.trim(), m = $('.pin__msg', pin);
+    if (!/^[1-9][0-9]{5}$/.test(v)) { m.className = 'pin__msg err'; m.textContent = 'Please enter a valid 6-digit PIN code.'; return; }
+    m.className = 'pin__msg'; m.textContent = 'We ship across India; delivery is usually 3–5 days. Exact serviceability and shipping charges for ' + v + ' are confirmed at checkout.';
+  });
+
+  /* ---------------- Know Your Food selector ---------------- */
+  var ks = $('#kyf-sel'), kc = $('#kyf-card');
+  if (ks && kc && window.KYF) {
+    var draw = function () {
+      var d = KYF[ks.value]; if (!d) return;
+      var tbd = '<span class="tbd">To be added by Rosier</span>';
+      kc.innerHTML = '<div class="kyf__head"><img src="' + d.i + '" alt=""><div><h3 style="font-size:24px">' + esc(d.n) + '</h3><p style="color:var(--muted)">' + esc(d.s) + '</p><a class="link-arrow" href="' + d.url + '">View product</a></div></div>' +
+        '<dl><dt>What it is</dt><dd>' + esc(d.about) + '</dd>' +
+        '<dt>Ingredients</dt><dd>' + (d.ing ? esc(d.ing) : 'Printed on the pack. ' + tbd) + '</dd>' +
+        (d.store ? '<dt>Storage</dt><dd>' + esc(d.store) + '</dd>' : '') +
+        '<dt>Lab report</dt><dd>' + (d.lab ? '<a href="' + d.lab + '" target="_blank" rel="noopener" style="text-decoration:underline">Open the lab report</a>' : 'Not yet published for this product.') + '</dd>' +
+        '<dt>Testing laboratory &amp; date</dt><dd>' + (d.lab ? 'Shown inside the report. ' + tbd : '—') + '</dd>' +
+        '<dt>Made by</dt><dd>Rosier Foods Pvt. Ltd. or a licensed partner unit. <a href="#units" style="text-decoration:underline">Match your batch letter</a></dd>' +
+        '<dt>FSSAI licence</dt><dd>Listed for each unit in the table below.</dd>' +
+        '<dt>Batch traceability</dt><dd>Batch-level journey tracking needs Rosier’s batch system to be connected. ' + tbd + '</dd></dl>';
+    };
+    ks.addEventListener('change', draw); draw();
+  }
 
   render();
 })();

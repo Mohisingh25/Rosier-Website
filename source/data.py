@@ -387,3 +387,61 @@ GUIDES = [
     ('Gajar Ka Halwa', '/blogs/lets-cook/gajar-ka-halwa-1', A + 'GAJAR_KA_HALWA_b06f51df-ac70-42a0-bf12-61e8d4825e60.png?format=webp&v=1790243856', 'Recipe'),
     ('Eggless Ghee Cake', '/blogs/lets-cook/indian-tacos', A + 'eggless_ghee.png?format=webp&v=1712257622', 'Recipe'),
 ]
+
+# ======================= QA pass =======================
+# Shopify variant IDs (from rosierfoods.com/products.json) -> enables real checkout via cart permalinks
+VIDS = {
+ 'bajra-atta': [67829942354150], 'gond-laddoo': [67652374954214, 67652450287846], 'high-protein-oats-cafe-latte': [48943392588006],
+ 'amlaprash': [46655712198886, 45502944313574, 45502944280806], 'pickle-tasting-set': [48272259350758],
+ 'mango-pickle-natural-sun-dried-pack-of-2': [48240521183462], 'sweet-lemon-pickle-natural-sun-dried-pack-of-2': [48240517021926],
+ 'green-chilly-pickle-natural-sun-dried-pack-of-2': [48240513712358], 'lemon-pickle-natural-sun-dried-pack-of-2': [48240508797158],
+ 'red-chilly-pickle-natural-sun-dried': [47523498000614], 'high-protein-oats-assorted-pack': [47004620652774], 'high-protein-oats-kulfi-masti': [47956578697446],
+ 'high-protein-oats-mango-tango': [47956549697766], 'stone-pressed-olive-oil': [47530207740134], 'ragi-atta-1kg': [47522440052966], 'sattu-atta-1kg': [47522425929958],
+ 'jowar-atta-1kg': [47522348826854], 'multigrain-atta-5kg': [47522338898150], 'green-chilly-pickle': [47344149397734], 'sweet-lemon-pickle': [47344148644070],
+ 'lemon-pickle': [47344145203430], 'mango-pickle': [47344139370726], 'stone-pressed-yellow-mustard-oil-kit-5-ltr': [47288524079334],
+ 'stone-pressed-sunflower-oil-oil-kit-5-ltr': [47288521883878], 'stone-pressed-black-mustard-oil-oil-kit-5-ltr': [47288418009318],
+ 'stone-pressed-groundnut-oil-oil-kit-5-ltr': [47288253382886], 'instant-oats-oats-double-chocolate': [47004620062950], 'instant-oats-banana-cinnamon': [47004619342054],
+ 'instant-oats-cafe-mocha': [47004516745446], 'stone-pressed-sesame-oil': [46659411902694], 'khapli-emmer-wheat-atta-5kg': [46601147613414],
+ 'wild-forest-honey-pack-of-2': [46024235581670], 'khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health': [45815743873254, 45815743906022],
+ 'stone-pressed-groundnut-oil-copy': [45796633968870], 'stone-pressed-sunflower-oil-5-ltr': [45796630790374], 'stone-pressed-black-mustard-oil-oil-5-ltr': [45796624662758],
+ 'stone-pressed-yellow-mustard-oil-5l': [45791023104230], 'stone-pressed-sunflower-oil': [45735115751654], 'nut-butter-crunchy': [45668185997542],
+ 'almond-butter-crunchy': [44482690121958], 'stone-pressed-yellow-mustard-oil': [43736537596134],
+ # ghee in the same order as the size buttons: 250ml, 500ml, 1L, 2L jars, 2L dolchi, 5L jars, 5L dolchi
+ 'a2-desi-cow-ghee-hand-churned-from-curd': [48219434942694, 43767862132966, 43767862165734, 43768531452134, 46735728967910, 45671920206054, 43808088031462],
+ 'nut-butter-dark-chocolate': [44482677604582], 'nut-butter': [44247622484198], 'wood-pressed-coconut-oil': [43680289915110],
+ 'wood-pressed-black-mustard-oil': [43736536678630], 'groundnut-oil': [45796638752998], 'wild-flower-honey': [43562619109606],
+}
+
+# Extra browsing categories requested in the brief (subsets of the live catalogue)
+COLLECTIONS += [
+    ('honey', 'Honey & Amlaprash', S + 'immunity_bosters.webp?v=1779380728', 'Raw wild forest honey',
+     'Multi-floral wild forest honey from the Himalayas, and Amlaprash made with A2 desi cow ghee.',
+     ['wild-flower-honey', 'wild-forest-honey-pack-of-2', 'amlaprash']),
+    ('nut-butters', 'Nut Butters', S + 'healthy_breakfast.webp?v=1779380683', 'Almonds, peanuts, cashews',
+     'Nut butters made with almonds, peanuts and cashews, without unnecessary additives, fillers or preservatives.',
+     ['nut-butter', 'nut-butter-crunchy', 'nut-butter-dark-chocolate', 'almond-butter-crunchy']),
+]
+
+# Search keywords (ingredients and common names) — taken from the product names/descriptions
+KEYWORDS = {
+ 'ghee': 'ghee gir cow a2 bilona desi curd dolchi', 'amla': 'amla amlaprash chyawanprash khand ghee', 'honey': 'honey shahad himalayan wild flower',
+ 'oil': 'oil tel cold pressed kachi ghani stone pressed', 'olive': 'olive oil', 'oilbasic': 'sesame til oil', 'khapli': 'wheat gehu emmer khapli atta flour',
+ 'multigrain': 'multigrain jowar maize barley ragi soy khapli wheat atta', 'ragi': 'ragi finger millet nachni atta', 'jowar': 'jowar sorghum millet gluten free atta',
+ 'sattu': 'sattu roasted bengal gram chana atta', 'oats': 'oats breakfast protein', 'oats2': 'oats breakfast protein', 'nutbutter': 'nut butter almond peanut cashew',
+ 'almond': 'almond badam butter', 'pickle': 'pickle achar aam mirchi', 'pickle2': 'pickle achar nimbu lemon', 'generic': 'laddoo gond bajra millet',
+}
+
+# Membership plans (from the membership page brief)
+PLANS = [('3 months', 299), ('6 months', 549), ('12 months', 999)]
+
+NEEDS = [
+    ('cooking', 'Everyday cooking', 'Stone pressed oils, never refined, for the daily tadka.', ['wood-pressed-black-mustard-oil', 'groundnut-oil', 'stone-pressed-yellow-mustard-oil', 'wood-pressed-coconut-oil']),
+    ('breakfast', 'Breakfast', 'High protein oats and nut butters for busy mornings.', ['high-protein-oats-assorted-pack', 'instant-oats-cafe-mocha', 'nut-butter-dark-chocolate', 'almond-butter-crunchy']),
+    ('grains', 'Traditional grains', 'Khapli, ragi, jowar, bajra and sattu, stone-ground in a chakki.', ['khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health', 'ragi-atta-1kg', 'jowar-atta-1kg', 'sattu-atta-1kg']),
+    ('family', 'Family essentials', 'The staples your rasoi runs on, in family sizes.', ['a2-desi-cow-ghee-hand-churned-from-curd', 'khapli-emmer-wheat-atta-5kg', 'stone-pressed-black-mustard-oil-oil-5-ltr', 'multigrain-atta-5kg']),
+    ('winter', 'Winter favourites', 'Amlaprash, raw honey and gond laddoo for the season.', ['amlaprash', 'wild-flower-honey', 'gond-laddoo', 'wild-forest-honey-pack-of-2']),
+    ('taste', 'Ghar jaisa taste', 'Sun-dried pickles, made the way they are at home.', ['pickle-tasting-set', 'mango-pickle', 'green-chilly-pickle', 'sweet-lemon-pickle']),
+]
+
+# OWNER: replace with the direct membership product link once Rosier shares it.
+JOIN_URL = 'https://www.rosierfoods.com/account'

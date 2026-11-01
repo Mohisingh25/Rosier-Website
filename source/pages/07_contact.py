@@ -15,14 +15,14 @@ BODY = f'''
 <section style="padding:20px 0 clamp(72px,9vw,120px)">
   <div class="container contact-grid">
     <div class="info-cards">
-      <div class="info reveal"><span class="ico"><svg><use href="#i-pin"/></svg></span><div><h3>Delhi</h3><p>Rosier Foods Pvt. Ltd.<br>Burari, Delhi 110084</p></div></div>
+      <h2 class="sr-only">Our addresses and contact details</h2><div class="info reveal"><span class="ico"><svg><use href="#i-pin"/></svg></span><div><h3>Delhi</h3><p>Rosier Foods Pvt. Ltd.<br>Burari, Delhi 110084</p></div></div>
       <div class="info reveal" style="--d:.06s"><span class="ico"><svg><use href="#i-pin"/></svg></span><div><h3>Noida</h3><p>Rosier Foods Pvt. Ltd.<br>Sector 6, Noida, Uttar Pradesh 201301</p></div></div>
       <div class="info reveal" style="--d:.12s"><span class="ico"><svg><use href="#i-headset"/></svg></span><div><h3>Members come first</h3><p>Benefit Club members get priority customer support. <a href="membership.html">Join the club</a></p></div></div>
       <div class="reveal" style="--d:.18s">
         <p class="opt-label" style="margin:14px 0 10px">Quick help</p>
         <div class="quick-links">
-          <a href="#">Shipping Policy <svg><use href="#i-arrow"/></svg></a>
-          <a href="#">Refund Policy <svg><use href="#i-arrow"/></svg></a>
+          <a href="faq.html#orders">Shipping Policy <svg><use href="#i-arrow"/></svg></a>
+          <a href="faq.html#returns">Refund Policy <svg><use href="#i-arrow"/></svg></a>
           <a href="lab-reports.html">Lab Reports <svg><use href="#i-arrow"/></svg></a>
           <a href="hampers.html#enquiry">Bulk &amp; Corporate <svg><use href="#i-arrow"/></svg></a>
         </div>

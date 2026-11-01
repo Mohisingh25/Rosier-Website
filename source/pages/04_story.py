@@ -51,7 +51,7 @@ BODY = f'''
     <header class="section-head reveal">{eyebrow('Making of Rosier Gir Cow A2 Ghee', True)}<h2>Slow, the way it should be</h2></header>
     <div class="journey" style="margin-top:20px">{journey}</div>
     <div class="exp__video reveal" style="margin-top:56px"><video src="{HOME['video']}" autoplay muted loop playsinline preload="metadata"></video></div>
-    <div class="center mt-40 reveal"><a href="product.html" class="btn btn--primary">Shop A2 Ghee <svg><use href="#i-arrow"/></svg></a></div>
+    <div class="center mt-40 reveal"><a href="product-a2-desi-cow-ghee-hand-churned-from-curd.html" class="btn btn--primary">Shop A2 Ghee <svg><use href="#i-arrow"/></svg></a></div>
   </div>
 </section>
 

@@ -109,7 +109,7 @@
 .pcard__img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
 .pcard:hover .pcard__img img{transform:scale(1.06)}
 .pcard__badge{position:absolute;top:12px;left:12px;z-index:1;padding:4px 10px;border-radius:999px;background:var(--brown-deep);color:var(--gold-soft);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
-.pcard__badge--new{background:var(--mint);color:#2F5B2A}
+.pcard__badge--new{background:var(--mint);color:var(--brown-ink)}
 .pcard__off{position:absolute;top:12px;right:12px;z-index:1;padding:4px 9px;border-radius:999px;background:#fff;color:var(--brown);font-size:11.5px;font-weight:600;box-shadow:var(--shadow-sm)}
 .pcard__quick{position:absolute;left:12px;right:12px;bottom:12px;z-index:1;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s var(--ease)}
 .pcard:hover .pcard__quick{opacity:1;transform:none}
@@ -190,7 +190,7 @@
 .verified svg{width:14px;height:14px}
 
 /* ---------- Lab CTA ---------- */
-.lab-cta{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:32px 40px;border-radius:var(--r-lg);background:linear-gradient(90deg,#F2F9EF,var(--mint));border:1px solid #C7E4C1}
+.lab-cta{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:32px 40px;border-radius:var(--r-lg);background:linear-gradient(90deg,var(--cream),var(--mint));border:1px solid var(--line)}
 .lab-cta .ico{background:#fff;color:var(--olive)}
 .lab-cta h3{font-size:clamp(24px,2.6vw,32px)}
 .lab-cta p{color:var(--muted);margin-top:4px}
@@ -228,7 +228,7 @@
 .pdp__price{display:flex;align-items:baseline;gap:12px;margin-top:22px;padding-top:22px;border-top:1px dashed var(--line)}
 .pdp__price b{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--brown-ink)}
 .pdp__price s{color:#A99A84;font-size:18px}
-.pdp__price .off{padding:4px 10px;border-radius:999px;background:var(--mint);color:#2F5B2A;font-size:12.5px;font-weight:500}
+.pdp__price .off{padding:4px 10px;border-radius:999px;background:var(--mint);color:var(--brown-ink);font-size:12.5px;font-weight:500}
 .tax{font-size:12.5px;color:var(--muted);margin-top:4px}
 .opt-label{margin-top:28px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .variants{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
@@ -248,7 +248,7 @@
 .pdp-perks svg{width:22px;height:22px;color:var(--olive)}
 .benefit-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .benefit-list li{display:flex;gap:10px;font-size:14px;align-items:flex-start}
-.benefit-list svg{width:18px;height:18px;margin-top:3px;color:var(--olive);background:rgba(95,107,58,.1);border-radius:50%;padding:3px;box-sizing:content-box}
+.benefit-list svg{width:18px;height:18px;margin-top:3px;color:var(--olive);background:rgba(120,73,0,.08);border-radius:50%;padding:3px;box-sizing:content-box}
 .pdp__info .accordion{margin-top:30px}
 .pdp__info .acc-q{font-size:18px;padding:20px 2px}
 
@@ -321,7 +321,7 @@
 .field textarea{min-height:120px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brown);background:#fff}
 .form-card .btn{margin-top:22px}
-.form-ok{display:none;margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--mint);color:#2F5B2A;font-size:14px}
+.form-ok{display:none;margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--mint);color:var(--brown-ink);font-size:14px}
 .form-ok.show{display:block}
 
 /* ---------- Contact ---------- */

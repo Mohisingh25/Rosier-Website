@@ -1,7 +1,8 @@
 exec(open(SRC + '/pages/02_shop.py').read().split("seen, order")[0])
 CB = {'ghee': PH['ghee_pour'], 'stone-press-oil': PH['oil_range'], 'pickles': img(BY['mango-pickle'][8], 10).split('&width')[0],
       'atta': img(BY['khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health'][8], 10).split('&width')[0],
-      'healthy-snacking': img(BY['high-protein-oats-assorted-pack'][8], 10).split('&width')[0], 'immunity-booster': img(BY['amlaprash'][8], 10).split('&width')[0]}
+      'healthy-snacking': img(BY['high-protein-oats-assorted-pack'][8], 10).split('&width')[0], 'immunity-booster': img(BY['amlaprash'][8], 10).split('&width')[0],
+      'honey': img(BY['wild-flower-honey'][8], 10).split('&width')[0], 'nut-butters': img(BY['nut-butter-dark-chocolate'][8], 10).split('&width')[0]}
 PAGES = []
 for k, n, ti, short, desc, hs in COLLECTIONS:
     cards = ''.join(pcard(h, 'reveal', (i % 4) * .05) for i, h in enumerate(hs))

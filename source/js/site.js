@@ -29,7 +29,11 @@
   /* Mobile drawer */
   var drawer = $('.drawer');
   $$('[data-drawer]').forEach(function (b) {
-    b.addEventListener('click', function () { drawer.classList.toggle('open'); document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : ''; });
+    b.addEventListener('click', function () {
+      var open = drawer.classList.toggle('open'); document.body.style.overflow = open ? 'hidden' : '';
+      $$('[aria-controls=drawer]').forEach(function (x) { x.setAttribute('aria-expanded', open); });
+      if (open) setTimeout(function () { var t = b.hasAttribute('data-focus-search') ? $('#q-drawer') : $('.drawer__panel a'); if (t) t.focus(); }, 300);
+    });
   });
 
   /* Accordions (one open per group) */
@@ -96,7 +100,7 @@
   });
   $$('.variant').forEach(function (v) {
     v.addEventListener('click', function () {
-      $$('.variant').forEach(function (x) { x.classList.remove('on'); }); v.classList.add('on');
+      $$('.variant').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); }); v.classList.add('on'); v.setAttribute('aria-pressed', 'true');
       var p = +v.dataset.price, m = +v.dataset.mrp;
       $('#pdp-price').textContent = inr(p); $('#pdp-mrp').textContent = inr(m);
       $('#pdp-off').textContent = Math.round((1 - p / m) * 100) + '% OFF';
@@ -128,7 +132,12 @@
 
   /* Forms (demo) */
   $$('form[data-demo]').forEach(function (f) {
-    f.addEventListener('submit', function (e) { e.preventDefault(); var ok = $('.form-ok', f); if (ok) ok.classList.add('show'); f.reset(); });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); var ok = $('.form-ok', f), er = $('.form-err', f);
+      if (!f.checkValidity()) { var bad = f.querySelector(':invalid'); if (er) { er.textContent = bad && bad.type === 'checkbox' ? 'Please tick the consent box to continue.' : 'Please fill in the highlighted field correctly.'; er.classList.add('show'); } if (bad) bad.focus(); return; }
+      if (er) er.classList.remove('show'); if (ok) ok.classList.add('show'); f.reset();
+    });
+    f.setAttribute('novalidate', '');
   });
 
   /* Home hero slider */

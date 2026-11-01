@@ -27,7 +27,7 @@ BODY = f'''
 <section style="padding:20px 0 clamp(72px,9vw,120px)">
   <div class="container">
     <div class="lab-intro">
-      <div class="value reveal"><span class="ico"><svg><use href="#i-flask"/></svg></span><h3>{total} products tested</h3><p>Every product listed here has its lab report published, open for anyone to read.</p></div>
+      <h2 class="sr-only">Why we publish lab reports</h2><div class="value reveal"><span class="ico"><svg><use href="#i-flask"/></svg></span><h3>{total} products tested</h3><p>Every product listed here has its lab report published, open for anyone to read.</p></div>
       <div class="value reveal" style="--d:.06s"><span class="ico"><svg><use href="#i-shield"/></svg></span><h3>Nothing hidden</h3><p>No refined oils. No additives. Read the report and see exactly what's in your food.</p></div>
       <div class="value reveal" style="--d:.12s"><span class="ico"><svg><use href="#i-headset"/></svg></span><h3>Got a question?</h3><p>Not sure how to read a report? <a href="contact.html" style="color:var(--brown);text-decoration:underline">Ask our team</a> and we'll walk you through it.</p></div>
     </div>

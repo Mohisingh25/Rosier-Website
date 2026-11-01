@@ -17,7 +17,8 @@ def related(h):
 def variants_html(h, size, price, mrp):
     vs = VARIANTS.get(h) or ([('250 ml', 594.15, 699, 1), ('500 ml', 999.00, 1350, 1), ('1 L', 1808.80, 2380, 1), ('2 L · 2 Glass Jars', 3570.00, 4760, 1),
                                ('2 L · Steel Dolchi', 3585.00, 4780, 1), ('5 L · 5 Glass Jars', 8925.00, 11900, 1), ('5 L · Steel Dolchi', 8925.00, 11900, 1)] if h == GHEE else [(size, price, mrp, 1)])
-    return ''.join(f'<button class="variant{" on" if i == 0 else ""}" data-price="{p}" data-mrp="{m}"{"" if a else " disabled aria-disabled=true"}>{n}{"" if a else " · sold out"}</button>' for i, (n, p, m, a) in enumerate(vs))
+    ids = VIDS.get(h) or []
+    return ''.join(f'<button type="button" class="variant{" on" if i == 0 else ""}" aria-pressed="{"true" if i == 0 else "false"}" data-price="{p}" data-mrp="{m}"{f" data-vid={ids[i]}" if i < len(ids) else ""}{"" if a else " disabled aria-disabled=true"}>{n}{"" if a else " · sold out"}</button>' for i, (n, p, m, a) in enumerate(vs))
 
 
 def buybox(h, name, size, price, mrp, r, reviews=None):
@@ -28,17 +29,18 @@ def buybox(h, name, size, price, mrp, r, reviews=None):
     why = ''.join(f'<li><svg aria-hidden="true"><use href="#i-check"/></svg>{w}</li>' for w in I['why'])
     return f'''<nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span>{crumbs}</nav>
     <h1 class="pdp__title">{html.escape(name)}</h1>
-    <div class="pdp__meta">{stars(r, reviews)}{'<a href="#reviews">Read reviews</a>' if reviews else ''}{lab}</div>
+    <div class="pdp__meta">{stars(r, reviews)}{'<a href="#reviews">Read reviews</a>' if reviews else f'<a href="{SITE}/products/{h}#judgeme_product_reviews" rel="noopener">Reviews on rosierfoods.com</a>'}{lab}</div>
     <ul class="why" aria-label="Why this product">{why}</ul>
     <div class="pdp__price"><b id="pdp-price">{inr(price)}</b>{f'<s id="pdp-mrp">{inr(mrp)}</s><span class="off" id="pdp-off">{o}% OFF</span>' if o > 0 else ''}</div>
     <p class="tax">MRP inclusive of all taxes. Shipping, if any, shown at checkout.</p>
     <span class="stock">In stock</span>
-    <p class="opt-label">Size</p><div class="variants">{variants_html(h, size, price, mrp)}</div>
+    <p class="opt-label" id="size-l">Size</p><div class="variants" role="group" aria-labelledby="size-l">{variants_html(h, size, price, mrp)}</div>
     <div class="buy-row">
       <div class="qty"><button data-d="-" aria-label="Decrease quantity">−</button><input id="pdp-qty" value="1" inputmode="numeric" aria-label="Quantity"><button data-d="+" aria-label="Increase quantity">+</button></div>
       <button class="btn btn--primary" id="pdp-add" data-h="{h}">Add to Cart</button>
     </div>
     <button class="btn btn--outline btn--block" data-h="{h}" data-buy style="margin-top:10px">Buy Now</button>
+    <form class="pin" id="pin-form" novalidate><label for="pin">Check delivery to your PIN code</label><div class="pin__row"><input id="pin" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="6-digit PIN"><button class="btn btn--outline btn--sm" type="submit">Check</button></div><p class="pin__msg" role="status" aria-live="polite"></p></form>
     <div class="deliv">
       <span><svg aria-hidden="true"><use href="#i-truck"/></svg>Usually delivered in 3–5 days across India</span>
       <span><svg aria-hidden="true"><use href="#i-check"/></svg>Return or exchange within 2 days if damaged, wrong or seal broken</span>
@@ -52,6 +54,7 @@ def details(h, size, extra=''):
     rows = [('Net quantity', size)]
     if I.get('ing'): rows.append(('Ingredients', I['ing']))
     if I.get('store'): rows.append(('Storage', I['store']))
+    rows.append(('Nutrition', 'Nutrition facts are printed on the pack label. <span class="tbd">Online nutrition table to be added by Rosier</span>'))
     rows.append(('Made by', 'Rosier Foods Pvt. Ltd. or a licensed partner unit. <a href="standards.html#units" style="text-decoration:underline">Find yours from the batch code</a>'))
     if h in LABMAP: rows.append(('Lab report', f'<a href="{LABMAP[h]}" target="_blank" rel="noopener" style="text-decoration:underline">Open the report</a>'))
     dl = ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows)
@@ -60,6 +63,7 @@ def details(h, size, extra=''):
       <div class="acc-item"><button class="acc-q" aria-expanded="false">About this product<svg aria-hidden="true"><use href="#i-plus"/></svg></button><div class="acc-a"><div><p>{I['about']} <a href="{SITE}/products/{h}" style="text-decoration:underline">Full description on rosierfoods.com</a></p>{extra}</div></div></div>
       <div class="acc-item"><button class="acc-q" aria-expanded="false">Product details<svg aria-hidden="true"><use href="#i-plus"/></svg></button><div class="acc-a"><div><dl class="facts">{dl}</dl></div></div></div>
       {use}
+      {faqs(h)}
       <div class="acc-item"><button class="acc-q" aria-expanded="false">Delivery, returns &amp; cancellation<svg aria-hidden="true"><use href="#i-plus"/></svg></button><div class="acc-a"><div><p>{POLICY['delivery']} {POLICY['returns']} {POLICY['unboxing']} {POLICY['cancel']} <a href="standards.html#returns" style="text-decoration:underline">Read our terms</a></p></div></div></div>
     </div>'''
 
@@ -95,6 +99,16 @@ def ld(h, name, price, r, imgs, rating=None):
     return jsonld(prod) + jsonld(crumbs)
 
 
+def faqs(h):
+    I = INFO[info_key(h)]
+    qa = [('Is this product lab tested?', f'Yes. <a href="{LABMAP[h]}" target="_blank" rel="noopener" style="text-decoration:underline">Open its lab report</a>, or browse <a href="lab-reports.html" style="text-decoration:underline">all reports</a>.' if h in LABMAP else 'A lab report for this product is not published yet. <a href="lab-reports.html" style="text-decoration:underline">See the reports we have published</a>.')]
+    if I.get('store'): qa.append(('How should I store it?', I['store']))
+    qa += [('Where is it made?', 'In Rosier\'s own unit or a licensed partner unit. The batch letter on the pack tells you which. <a href="standards.html#units" style="text-decoration:underline">See units and FSSAI numbers</a>.'),
+           ('Do you deliver to my area?', 'We deliver across India, usually in 3–5 days. Enter your PIN code at checkout to confirm.')]
+    inner = ''.join(f'<h2 class="pfaq__q">{q}</h2><p>{a}</p>' for q, a in qa)
+    return f'<div class="acc-item"><button class="acc-q" aria-expanded="false">Product FAQs<svg aria-hidden="true"><use href="#i-plus"/></svg></button><div class="acc-a"><div class="pfaq">{inner}</div></div></div>'
+
+
 PAGES = []
 for p in PRODUCTS:
     h, name, size, price, mrp, r, badge, i1, i2 = p
@@ -123,7 +137,7 @@ for p in PRODUCTS:
 {related_section(h)}
 {RECENT}
 {ld(h, name, price, r, GHEE_GALLERY, ('4.9', '1894'))}'''
-        for f in ('product.html', purl(h)):
+        for f in (purl(h),):
             PAGES.append((f, 'Gir Cow A2 Ghee – Hand Churned Bilona | Rosier Foods', 'Rosier Gir Cow A2 Ghee, made from curd and hand-churned the Bilona way. Lab tested. Rated 4.9 from 1,894 reviews.', 'shop', body))
         continue
 
