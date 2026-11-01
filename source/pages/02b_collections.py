@@ -1,12 +1,17 @@
 exec(open(SRC + '/pages/02_shop.py').read().split("seen, order")[0])
+CB = {'ghee': PH['ghee_pour'], 'stone-press-oil': PH['oil_range'], 'pickles': img(BY['mango-pickle'][8], 10).split('&width')[0],
+      'atta': img(BY['khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health'][8], 10).split('&width')[0],
+      'healthy-snacking': img(BY['high-protein-oats-assorted-pack'][8], 10).split('&width')[0], 'immunity-booster': img(BY['amlaprash'][8], 10).split('&width')[0]}
 PAGES = []
 for k, n, ti, short, desc, hs in COLLECTIONS:
     cards = ''.join(pcard(h, 'reveal', (i % 4) * .05) for i, h in enumerate(hs))
     body = f'''
-<section class="page-hero"><div class="container col-hero">
-  <div class="col-hero__img reveal"><img src="{img(ti, 300)}" alt="{n}"></div>
-  <div><nav class="crumbs reveal"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span>{n}</nav>
-  <h1 class="reveal" style="--d:.06s">{n}</h1><p class="lead reveal" style="--d:.12s">{desc}</p></div>
+<section><div class="container">
+  <div class="col-banner reveal" style="--cb:url('{CB[k]}&width=1800')"><div>
+    <nav class="crumbs"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span>{n}</nav>
+    <h1>{n}</h1><p>{desc}</p>
+    <div class="col-banner__stats"><span>{len(hs)} products</span>{'<span>Lab tested</span>' if any(x in LABMAP for x in hs) else ''}<span>Up to {max(off(BY[x][3], BY[x][4]) for x in hs)}% off</span><span>Delivered across India</span></div>
+  </div></div>
 </div></section>
 <section style="padding:10px 0 clamp(56px,7vw,90px)"><div class="container">
   {tabs(k)}{sortbar(len(hs))}

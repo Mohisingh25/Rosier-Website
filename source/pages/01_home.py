@@ -12,16 +12,19 @@ values = [('Source To Table', 'Direct relationships with heritage grain farmers,
           ('Time-Honored Techniques', 'Slow Bilona churning, traditional stone-milling, and authentic methods.'),
           ('Unwavering Purity', 'No refined oils, no additives—just pure, wholesome ingredients.'),
           ('Commitment to Community', 'Fair trade practices and direct support to rural farming families.')]
-vals = ''.join(f'<div class="hv reveal" style="--d:{i*.08}s"><img src="{H["values"][i]}&width=360" alt="" loading="lazy"><h3>{t}</h3><p>{d}</p></div>' for i, (t, d) in enumerate(values))
+VPH = [PH['cows'], PH['churning'], PH['ghee_pour'], PH['family_table']]
+vals = ''.join(f'<div class="pv reveal" style="--d:{i*.08}s"><div class="pv__img"><img src="{VPH[i]}&width=700" alt="{t}" loading="lazy"></div><div class="pv__txt"><span class="pv__n">0{i+1}</span><h3>{t}</h3><p>{d}</p></div></div>' for i, (t, d) in enumerate(values))
 tcards = ''.join(f'''<article class="tcard2"><div class="tcard2__img"><img src="{im}&width=600" alt="{n}" loading="lazy"></div>
   <div class="tcard2__body"><h3>{t}</h3><div class="tstars">★★★★★</div><p>{q}</p><footer><b>{n}</b><small>{p}</small></footer></div></article>''' for t, q, n, p, im in TESTI)
 digits = ''.join(f'<span class="roll" data-d="{d}"><span class="roll__col">{"".join(f"<i>{k}</i>" for k in range(10))}</span></span>' for d in '06034')
 trust = ''.join(f'<img src="{t}&width=200" alt="" loading="lazy">' for t in H['trust'])
 
 # Shop by need
+NPH = {'gut': PH['ghee_spread'], 'immunity': img(BY['amlaprash'][8], 900).split('&width')[0], 'protein': img(BY['high-protein-oats-assorted-pack'][8], 900).split('&width')[0],
+       'cooking': PH['oil_range'], 'millets': img(BY['ragi-atta-1kg'][8], 900).split('&width')[0], 'taste': PH['oil_food']}
 ntabs = ''.join(f'<button class="{"on" if i == 0 else ""}" data-tab="{k}" role="tab" aria-selected="{"true" if i == 0 else "false"}">{n}</button>' for i, (k, n, *_r) in enumerate(NEEDS))
 npanes = ''.join(f'''<div class="need-pane" id="need-{k}" data-pane="{k}" role="tabpanel"{"" if i == 0 else " hidden"}>
-  <div class="need-intro">{eyebrow('Shop by need', light=True)}<h3>{n}</h3><p>{line}</p><a href="shop.html" class="btn btn--gold btn--sm">Shop all <svg><use href="#i-arrow"/></svg></a></div>
+  <div class="need-intro" style="--nbg:url('{NPH[k]}&width=900')">{eyebrow('Shop by need', light=True)}<h3>{n}</h3><p>{line}</p><a href="shop.html" class="btn btn--gold btn--sm">Shop all <svg><use href="#i-arrow"/></svg></a></div>
   <div class="need-grid">{''.join(pcard(h, '') for h in hs)}</div></div>''' for i, (k, n, line, hs) in enumerate(NEEDS))
 
 # Tabbed bestseller row
@@ -38,12 +41,13 @@ rbtns = ''.join(f'<span data-pane="{k}"{"" if i == 0 else " hidden"}>{car_btns("
 lab_opts = ''.join(f'<option value="{LABMAP[h]}">{BY[h][1]}</option>' for h in sorted([p[0] for p in PRODUCTS], key=lambda x: BY[x][1]) if h in LABMAP and 'pack-of' not in h and 'kit' not in h and '5 L' not in BY[h][2] and '5-ltr' not in h and '5l' not in h and h != 'stone-pressed-groundnut-oil-copy' and h != 'khapli-emmer-wheat-atta-5kg')
 bars = ''.join(f'<div class="bar"><span>{s} ★</span><i style="--w:{w}%"></i><span>{c}</span></div>' for s, w, c in [(5, 91, '1,720'), (4, 9, '165'), (3, .5, '8'), (2, .2, '1'), (1, 0, '0')])
 
-JOURNEY = [('i-cow', 'Free-grazing Gir cows', 'Fresh milk from indigenous Gir desi cows.'),
-           ('i-sun', 'Boiled & cooled', 'The milk is boiled, then cools naturally to room temperature.'),
-           ('i-leaf', 'Set into curd', 'A natural starter culture sets it into curd overnight.'),
-           ('i-mill', 'Hand-churned bilona', 'The curd is churned the traditional Bilona way.'),
-           ('i-flask', 'Tested & delivered', 'Lab report published, then delivered across India.')]
-journey = ''.join(f'<div class="jstep reveal" style="--d:{i*.08}s"><span class="jstep__n"><svg><use href="#{ic}"/></svg></span><h3>{t}</h3><p>{d}</p></div>' for i, (ic, t, d) in enumerate(JOURNEY))
+JOURNEY = [('cows', 'Free-grazing Gir cows', 'Fresh milk from indigenous Gir desi cows.'),
+           ('bilona_pot', 'Boiled, cooled, set into curd', 'Milk is boiled, cooled naturally, then set into curd overnight.'),
+           
+           ('churning', 'Hand-churned bilona', 'The curd is churned by hand, the traditional Bilona way.'),
+           ('tested', 'Lab tested', 'Every product here has its lab report published for you to read.'),
+           ('family_table', 'On your family\'s table', 'Delivered across India, straight to your rasoi.')]
+journey = ''.join(f'<div class="jcard reveal" style="--d:{i*.08}s"><div class="jcard__img"><img src="{PH[ic]}&width=700" alt="{t}" loading="lazy"><span>{i+1}</span></div><h3>{t}</h3><p>{d}</p></div>' for i, (ic, t, d) in enumerate(JOURNEY))
 
 FAQ = [("What makes Rosier ghee different?", "We make it from the curd of free-grazing Gir cows' milk and churn it by hand, the Bilona way. It's rated 4.9 from 1,894 reviews."),
        ("Are your products lab tested?", f'Yes. We publish lab reports for 32 of our products. <a href="lab-reports.html">See them all here</a>, or use the report finder above.'),
@@ -101,6 +105,19 @@ BODY = f'''
   </div>
 </section>
 
+<!-- DIWALI OFFER + VALUE PACKS (conversion) -->
+<section class="home-row" style="padding-top:10px">
+  <div class="container">
+    <div class="offer reveal" style="--ob:url('{PH['hamper_spread']}&width=1600')">
+      <div class="offer__copy"><p class="eyebrow eyebrow--light">Diwali Sale is live</p><h2>Up to 30% off, plus free gifts</h2>
+        <ul class="offer__tiers"><li><b>₹2,499+</b><span>Free bottle</span></li><li><b>₹4,999+</b><span>Free tumbler</span></li><li><b>₹7,999+</b><span>Bottle + tumbler</span></li></ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="shop.html" class="btn btn--gold">Shop the Sale <svg><use href="#i-arrow"/></svg></a><a href="hampers.html" class="btn btn--ghost">Diwali Hampers</a></div></div>
+    </div>
+    <div class="head-row reveal" style="margin-top:56px"><div><h2 class="h-live">Value Packs &amp; Family Sizes</h2><p class="section-sub">Stock up your rasoi and save more on every kilo and litre.</p></div>{car_btns('combos')}</div>
+    {carousel('combos', ['pickle-tasting-set','wild-forest-honey-pack-of-2','mango-pickle-natural-sun-dried-pack-of-2','stone-pressed-black-mustard-oil-oil-kit-5-ltr','stone-pressed-groundnut-oil-oil-kit-5-ltr','khapli-emmer-wheat-atta-5kg','green-chilly-pickle-natural-sun-dried-pack-of-2','stone-pressed-yellow-mustard-oil-kit-5-ltr'])}
+  </div>
+</section>
+
 <!-- MORE THAN A BRAND -->
 <section class="container family-wrap">
   <div class="family reveal">
@@ -114,6 +131,25 @@ BODY = f'''
   </div>
 </section>
 
+<!-- BRAND MANIFESTO -->
+<section class="brand">
+  <div class="container brand__grid">
+    <div class="brand__copy reveal">
+      <img class="brand__logo" src="{HOME['logo_green']}&width=300" alt="Rosier – Nature's Love" onerror="this.src='assets/img/rosier-logo-green.png'">
+      <h2>Reviving the tradition of <em>Bharat</em></h2>
+      <p>Before refined oils and factory ghee, every Indian kitchen ran on slow food: ghee churned by hand, oil pressed on stone, grain milled fresh. We're bringing that kitchen back.</p>
+      <ul class="brand__pillars"><li><b>Pure</b><span>No refined oils. No additives.</span></li><li><b>Traditional</b><span>Bilona, stone pressed, stone ground.</span></li><li><b>Ethically crafted</b><span>Fair trade with rural farming families.</span></li></ul>
+      <a href="our-story.html" class="btn btn--primary">Read Our Story <svg><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="brand__mosaic reveal" style="--d:.1s">
+      <figure class="m1"><img src="{PH['churning']}&width=900" alt="Women churning curd the bilona way" loading="lazy"><figcaption>Hand-churned bilona</figcaption></figure>
+      <figure class="m2"><img src="{PH['cows']}&width=700" alt="Indigenous Gir cows" loading="lazy"><figcaption>Gir desi cows</figcaption></figure>
+      <figure class="m3"><img src="{PH['ghee_pour']}&width=700" alt="Golden A2 ghee being poured" loading="lazy"><figcaption>Golden A2 ghee</figcaption></figure>
+      <figure class="m4"><img src="{PH['unit']}&width=700" alt="The Rosier unit" loading="lazy"><figcaption>Our home</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <!-- EXPERIENCE + JOURNEY -->
 <section class="exp">
   <div class="container">
@@ -122,11 +158,7 @@ BODY = f'''
     <header class="section-head reveal" style="margin:72px auto 0">{eyebrow('From Gir cow to your kitchen', True)}<h2 style="font-size:clamp(28px,3.2vw,40px)">How your A2 ghee is made</h2></header>
     <div class="journey">{journey}</div>
     <div class="hv-grid">{vals}</div>
-    <div class="heritage">
-      <img class="heritage__a reveal" src="{H['cow']}&width=820" alt="" loading="lazy">
-      <a href="our-story.html" class="btn btn--primary reveal">Explore Our Heritage <svg><use href="#i-arrow"/></svg></a>
-      <img class="heritage__b reveal" src="{H['farmer']}&width=820" alt="" loading="lazy">
-    </div>
+    <a href="our-story.html" class="hband reveal" style="--hb:url('{PH['cows']}&width=2000')"><div><p class="eyebrow eyebrow--light">Our heritage</p><h3>Indigenous Gir cows. Village bilona. Real food.</h3><span class="btn btn--gold">Explore Our Heritage <svg><use href="#i-arrow"/></svg></span></div></a>
   </div>
 </section>
 
@@ -138,7 +170,7 @@ BODY = f'''
       <h3>Check the lab report for your product</h3>
       <p>Pick any product and open its lab test report. Read it, then decide.</p>
       <div class="lab-pick"><select id="lab-pick" aria-label="Choose a product"><option value="">Choose a product…</option>{lab_opts}</select><a id="lab-go" class="btn btn--primary disabled" target="_blank" rel="noopener" href="#">Open Report <svg><use href="#i-arrow"/></svg></a></div>
-      <div class="proof__chips"><span><svg><use href="#i-check"/></svg>No refined oils</span><span><svg><use href="#i-check"/></svg>No additives</span><span><svg><use href="#i-check"/></svg>32 products with public reports</span></div>
+      <img class="proof__img" src="{PH['tested']}&width=900" alt="Rosier A2 ghee with its lab report" loading="lazy"><div class="proof__chips"><span><svg><use href="#i-check"/></svg>No refined oils</span><span><svg><use href="#i-check"/></svg>No additives</span><span><svg><use href="#i-check"/></svg>32 products with public reports</span></div>
     </div>
     <div class="proof__rev reveal" style="--d:.1s">
       {eyebrow('Real families, real words')}

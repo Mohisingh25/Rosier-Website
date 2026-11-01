@@ -10,6 +10,8 @@ Open `index.html` in any browser (you need to be online: product photos load str
 - `our-story.html`, `lab-reports.html` (links to the real report PDFs), `hampers.html`, `contact.html`, `cart.html`, `membership.html`
 
 ## Images
+Real photography throughout: Gir cows, village bilona churning, the Rosier unit, ghee making, hamper shoots and product lifestyle shots, all pulled from your live store. The homepage values, farm-to-kitchen journey, heritage band, brand story, category banners and Our Story page are all photo-led.
+
 Every product, banner, category, testimonial and illustration image is hotlinked from your store's CDN
 (cdn.shopify.com / rosierfoods.com/cdn). If you replace an image in Shopify, update its URL in `source/data.py`.
 Hamper photos and logo files in `assets/img` are from your Parampara repo.

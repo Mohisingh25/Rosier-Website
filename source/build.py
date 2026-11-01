@@ -5,7 +5,7 @@ import os, re, shutil, html, sys
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SRC)
-from data import PRODUCTS, BY, BEST, NEW, COLLECTIONS, HOME, TESTI, GHEE_GALLERY, img, SITE, LABMAP, NEEDS
+from data import PRODUCTS, BY, BEST, NEW, COLLECTIONS, HOME, TESTI, GHEE_GALLERY, img, SITE, LABMAP, NEEDS, PH
 import json
 
 OUT = os.path.dirname(SRC) if os.path.basename(SRC) == 'source' else os.path.join(os.path.dirname(SRC), 'rosier-site')
@@ -220,7 +220,7 @@ def build():
     ctx = dict(SRC=SRC, pcard=pcard, carousel=carousel, car_btns=car_btns, eyebrow=eyebrow, stars=stars, inr=inr, off=off,
                PRODUCTS=PRODUCTS, BY=BY, BEST=BEST, NEW=NEW, COLLECTIONS=COLLECTIONS, COL=COL, HOME=HOME, TESTI=TESTI,
                GHEE_GALLERY=GHEE_GALLERY, img=img, purl=purl, curl=curl, CAT_OF=CAT_OF, LAB=LAB, LABCAT=LABCAT, html=html,
-               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS)
+               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS, PH=PH)
     n = 0
     for name in sorted(os.listdir(os.path.join(SRC, 'pages'))):
         mod = dict(ctx)

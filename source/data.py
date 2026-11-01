@@ -229,3 +229,34 @@ NEEDS = [
     ('millets', 'Millets & heritage grains', 'Ragi, jowar, bajra and sattu', ['ragi-atta-1kg', 'jowar-atta-1kg', 'bajra-atta', 'sattu-atta-1kg']),
     ('taste', 'Ghar jaisa taste', 'Sun-dried pickles, made like home', ['pickle-tasting-set', 'mango-pickle', 'green-chilly-pickle', 'sweet-lemon-pickle']),
 ]
+
+# ---- Real photography from rosierfoods.com (about page, ghee & product galleries, hampers)
+PH = {
+    'about_banner': S + '13_About_Page_Banner_811e2119-e31f-4746-992c-b97f3e40f149.jpg?v=1772123938',
+    'unit': S + '1_0fe22cef-ad2a-4333-bf02-2ec3f1345b60.jpg?v=1753886632',          # Rosier building
+    'churning': S + '2_bf13f74b-4ee2-48f9-a7b1-f0ac1bac7ebe.jpg?v=1753886646',      # women churning bilona
+    'cows': S + '3_7aa179f6-294f-4abb-a377-4ef18a1abd37.jpg?v=1753886640',          # Gir cows
+    'cow_sun': S + 'Untitled_design_25.png?v=1755009833',
+    'family_table': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408680.jpg?v=1769604150',
+    'tested': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408681.jpg?v=1769604150',
+    'bilona_pot': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408682.jpg?v=1769604150',
+    'vs_regular': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408683.jpg?v=1769604150',
+    'ghee_spread': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408684.jpg?v=1769604150',
+    'art_of_slow': S + 'rosier-foods-ghee-gir-cow-a2-ghee-made-from-curd-1210408685.jpg?v=1769604150',
+    'farm_man': S + 'preview_images/f4467422ef4348379fe38c9ed776bda5.thumbnail.0000000000.jpg?v=1686659447',
+    'ghee_pour': S + '1_60e7e21f-34ce-42b7-a0dc-bbe6f8039e20.jpg?v=1767372013',
+    'ghee_nourish': S + '2_0dbce3a7-ca19-4ab9-b1dc-ede979e63ee2.jpg?v=1767372163',
+    'amla_fruit': S + 'Amla_3_cdcd8874-ca6b-41b3-8dce-80f2a6a81caa.jpg?v=1769589581',
+    'amla_founder': S + 'Amla_1_b2f88324-2aed-4af5-9ace-e75c1f0242e3.jpg?v=1769589628',
+    'oil_process': S + 'B-3_fe9144b6-a0d8-4677-b9a3-9e9e3d399bd4.jpg?v=1768912768',
+    'oil_range': S + 'B-7_8056f776-e0ad-4196-bc47-1e87f3e57668.jpg?v=1768912795',
+    'oil_food': S + 'B-5_47b4fe6e-664c-4331-9366-b837aebb89f3.jpg?v=1768912782',
+    'cooking_lady': S + 'B-6_b9948104-835c-44f7-be0b-d63aa84bb90c.jpg?v=1768912693',
+    'oil_drop': S + 'B-1_db36c70e-c527-4944-9775-1988392b6bee.jpg?v=1768912722',
+    'hamper_banner': S + 'hamper-banner_2.png?v=1790763320',
+    'hamper_trad': S + 'rosier-foods-traditional-hamper-1260194553.png?v=1790615833',
+    'hamper_life': S + '4_3.png?v=1790612550',
+    'hamper_spread': S + 'rosier-foods-traditional-hamper-1261989145.png?v=1791616573',
+    'hamper_gift': S + 'rosier-foods-lifestyle-hamper-1260378722.png?v=1790781340',
+}
+GHEE_GALLERY = GHEE_GALLERY[:2] + [PH['bilona_pot'], PH['vs_regular'], PH['art_of_slow'], PH['tested'], PH['ghee_spread'], PH['family_table']]
