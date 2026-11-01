@@ -33,6 +33,20 @@ Run `python3 build.py` inside `source/` to regenerate every page.
 - Mobile bottom navigation, WhatsApp chat button
 Checkout buttons are not connected to Shopify; your developer wires them to the store's checkout when this goes live.
 
+## Audit pass (Competitive Website Audit, 1 Nov 2026)
+- Homepage follows the recommended order: hero → category/need → bestsellers → proof & standards → process → founder & brand story → reviews → membership → guides & FAQ. Duplicate carousels, the unlabeled counter, the offer band and decorative illustration strips were removed.
+- New `standards.html` (Our Standards): claims with evidence links, the 6 FSSAI-licensed units with licence numbers and batch codes (from your Manufacturer List page), lab reports, delivery/returns/cancellation terms (from your live policies).
+- Product pages: "why this product" points, stock status, sold-out sizes disabled, delivery 3–5 days, 2-day return rules, product details (net quantity, ingredients/storage where stated, maker, lab report), how to use, Buy Now.
+- Shop by Need uses plain, non-medical labels.
+- Structured data (Product, BreadcrumbList, Organization), skip link, visible focus, labelled controls, consent checkbox on sign-up.
+
+### Still needs Rosier's input
+- Lab report dates and issuing labs (the PDFs are scanned images, so they must be typed in)
+- Names and photos of real farmers/suppliers and a founder portrait you approve
+- Review dates and variants (export from your reviews app)
+- Membership exclusions and terms
+- Connecting checkout to Shopify, then real-device speed and usability tests
+
 ## Animations
 Crossfading hero slider, scroll reveals, product photo swap on hover, rolling number counter, scrolling strips,
 hover lifts. All motion switches off for visitors who've turned on "reduce motion".
