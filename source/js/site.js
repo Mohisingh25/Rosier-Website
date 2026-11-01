@@ -167,4 +167,15 @@
     }, { threshold: .4 });
     co.observe(counter);
   }
+
+  /* header search toggle (tablet/mobile widths, where the search box collapses to an icon) */
+  var st = $('.hdr__stoggle'), sf = $('#hdr-search');
+  if (st && sf) {
+    st.addEventListener('click', function () {
+      var open = !document.body.classList.contains('search-open');
+      document.body.classList.toggle('search-open', open); st.setAttribute('aria-expanded', open);
+      if (open) setTimeout(function () { var i = $('#q-top'); if (i) i.focus(); }, 30);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('search-open')) { document.body.classList.remove('search-open'); st.setAttribute('aria-expanded', 'false'); st.focus(); } });
+  }
 })();

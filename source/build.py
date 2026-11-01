@@ -54,6 +54,22 @@ def purl(h): return f'product-{h}.html'
 def curl(k): return f'collection-{k}.html'
 
 
+def load_config(name):
+    """Read a config/*.js file (JSON inside `window.X = {...};`). The site root copy is the live one;
+    source/config only seeds it the first time the site is built."""
+    live = os.path.join(OUT, 'config', name)
+    path = live if os.path.exists(live) else os.path.join(SRC, 'config', name)
+    m = re.search(r'window\.\w+\s*=\s*(\{.*\})\s*;\s*$', open(path, encoding='utf-8').read(), re.S)
+    return json.loads(m.group(1))
+
+
+def cfg_live(item):
+    import datetime
+    if item.get('active') is False: return False
+    t = datetime.date.today().isoformat()
+    return not (item.get('start') and t < item['start']) and not (item.get('end') and t > item['end'])
+
+
 SPRITE = open(os.path.join(SRC, 'partials', 'sprite.html')).read()
 
 
@@ -114,8 +130,8 @@ def eyebrow(t, center=False, light=False):
 
 
 # Navigation exactly as specified in the brief
-NAV = [('shop', 'Shop All', 'shop.html'), ('ghee', 'Ghee', curl('ghee')), ('oils', 'Oils', curl('stone-press-oil')), ('atta', 'Atta & Grains', curl('atta')),
-       ('pickles', 'Pickles', curl('pickles')), ('breakfast', 'Breakfast', curl('healthy-snacking')), ('story', 'Our Story', 'our-story.html')]
+NAV = [('home', 'Home', 'index.html'), ('shop', 'Shop', 'shop.html'), ('story', 'Our Story', 'our-story.html'), ('lab', 'Lab Reports', 'lab-reports.html'),
+       ('hampers', 'Hampers', 'hampers.html'), ('club', 'Benefit Club', 'membership.html')]
 STORY = [('our-story.html', 'Our Story'), ('founder.html', 'Our Founder'), ('farmers.html', 'Our Farmers'), ('process.html', 'Our Process'),
          ('philosophy.html', 'Our Philosophy'), ('commitment.html', 'Our Commitment'), ('standards.html', 'Know Your Food (Standards)'),
          ('membership.html', 'Rosier Parivaar Membership'), ('hampers.html', 'Hampers & Gifting')]
@@ -125,7 +141,7 @@ LOGO = f'<img src="{HOME["logo"]}" alt="Rosier Foods" width="80" height="58" one
 def header(active):
     links = []
     for key, label, href in NAV:
-        cur = ' aria-current="page" class="active"' if key == active else ''
+        cur = ' aria-current="page"' if key == active else ''
         if key == 'shop':
             cats = ''.join(f'<a href="{curl(k)}"><img src="{img(t, 120)}" alt="" width="44" height="44">{n}</a>' for k, n, t, *_ in COLLECTIONS)
             needs = ''.join(f'<a href="index.html#need-{k}">{n}</a>' for k, n, *_ in NEEDS)
@@ -142,25 +158,32 @@ def header(active):
     sub = ''.join(f'<a href="{curl(k)}">{n}</a>' for k, n, *_ in COLLECTIONS)
     ssub = ''.join(f'<a href="{u}">{n}</a>' for u, n in STORY[1:])
     drawer = ''.join(f'<a href="{h}">{l}</a>' + (f'<div class="drawer__sub">{sub}</div>' if k == 'shop' else f'<div class="drawer__sub">{ssub}</div>' if k == 'story' else '')
-                     for k, l, h in NAV if k in ('shop', 'story'))
+                     for k, l, h in NAV)
+    ann = [a for a in load_config('homepage.js')['announcements'] if cfg_live(a)]
+    ann_static = f'<p class="ann__fallback">{html.escape(ann[0]["text"])}</p>' if ann else ''
     return f'''
-<div class="announce" role="region" aria-label="Announcement"><p>Diwali Sale is live: up to 30% off, plus a free bottle on orders above ₹2,499. <a href="faq.html#offers">Offer details</a></p></div>
-<header class="header" id="top"><div class="container header__inner">
-  <button class="burger" data-drawer aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+<div class="ann" id="ann" role="region" aria-label="Announcements">{ann_static}</div>
+<script>window.RosierRender&&RosierRender.ticker(document.getElementById('ann'))</script>
+<header class="header hdr" id="top"><div class="container hdr__in">
+  <div class="hdr__left">
+    <button class="burger" data-drawer aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    <nav class="nav" aria-label="Main">{''.join(links)}</nav>
+  </div>
   <a class="logo" href="index.html" aria-label="Rosier Foods home">{LOGO}</a>
-  <nav class="nav" aria-label="Main">{''.join(links)}</nav>
   <div class="header__actions">
-    <form class="search" role="search" action="shop.html"><svg aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="q-top">Search products</label><input id="q-top" name="q" type="search" placeholder="Search ghee, atta, honey…"></form>
+    <button class="icon-btn hdr__stoggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="hdr-search"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+    <form class="search" id="hdr-search" role="search" action="shop.html"><svg aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="q-top">Search products</label><input id="q-top" name="q" type="search" placeholder="Search ghee, atta, honey…" autocomplete="off"></form>
     <a href="{SITE}/account" class="icon-btn" aria-label="Account (opens rosierfoods.com)"><svg aria-hidden="true"><use href="#i-user"/></svg></a>
     <a href="cart.html" class="icon-btn" aria-label="Cart" data-open-cart><svg aria-hidden="true"><use href="#i-bag"/></svg><span class="cart-count" aria-live="polite">0</span></a>
   </div>
 </div></header>
-<div class="tbar"><div class="container tbar__in"><span><svg aria-hidden="true"><use href="#i-flask"/></svg><a href="lab-reports.html">Lab reports for 32 products</a></span><span><svg aria-hidden="true"><use href="#i-shield"/></svg><a href="standards.html#units">Made in FSSAI-licensed units</a></span><span><svg aria-hidden="true"><use href="#i-truck"/></svg>Usually delivered in 3–5 days</span><span><svg aria-hidden="true"><use href="#i-check"/></svg><a href="standards.html#returns">2-day returns on damaged or wrong items</a></span></div></div>
+<div class="tbar"><div class="container tbar__in"><span><svg aria-hidden="true"><use href="#i-flask"/></svg><a href="lab-reports.html">Lab reports for 32 products</a></span><span><svg aria-hidden="true"><use href="#i-jar"/></svg><a href="process.html">Bilona ghee · stone-pressed oils · chakki atta</a></span><span><svg aria-hidden="true"><use href="#i-truck"/></svg>Delivery across India in 3–5 days</span><span><svg aria-hidden="true"><use href="#i-shield"/></svg>Secure checkout on rosierfoods.com</span></div></div>
 <div class="drawer" id="drawer"><div class="drawer__scrim" data-drawer></div><div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
   <div class="drawer__top">{LOGO}<button class="burger" style="display:grid" data-drawer aria-label="Close menu"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
   <form class="drawer__search" role="search" action="shop.html"><svg aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="q-drawer">Search products</label><input id="q-drawer" name="q" type="search" placeholder="Search ghee, atta, honey…"></form>
-  <a href="index.html">Home</a>{drawer}<a href="standards.html">Know Your Food</a><a href="membership.html">Rosier Parivaar</a><a href="faq.html">FAQs</a><a href="contact.html">Contact Us</a>
+  {drawer}<a href="standards.html">Know Your Food</a><a href="faq.html">FAQs</a><a href="contact.html">Contact Us</a>
 </div></div>'''
+
 
 
 FOOTER = f'''
@@ -240,6 +263,9 @@ def page(fname, title, desc, active, body, after='', head=''):
 <link rel="stylesheet" href="css/live.css">
 <link rel="stylesheet" href="css/bharat.css">
 <link rel="stylesheet" href="css/qa.css">
+<link rel="stylesheet" href="css/home.css">
+<script src="config/homepage.js"></script>{'<script src="config/banners.js"></script>' if active == 'home' else ''}
+<script src="js/render.js"></script>
 <script src="js/catalog.js" defer></script>
 <script src="js/site.js" defer></script>
 <script src="js/commerce.js" defer></script>
@@ -271,6 +297,13 @@ def build():
     os.makedirs(os.path.join(OUT, 'assets', 'img'), exist_ok=True)
     shutil.copytree(os.path.join(SRC, 'css'), os.path.join(OUT, 'css'))
     shutil.copytree(os.path.join(SRC, 'js'), os.path.join(OUT, 'js'))
+    # config/ is edited directly on the live site, so a rebuild never overwrites it;
+    # source/config is only copied in when the site root has no config yet.
+    os.makedirs(os.path.join(OUT, 'config'), exist_ok=True)
+    for f in os.listdir(os.path.join(SRC, 'config')):
+        dst = os.path.join(OUT, 'config', f)
+        if not os.path.exists(dst) or '--reset-config' in sys.argv:
+            shutil.copy(os.path.join(SRC, 'config', f), dst)
     for f in os.listdir(os.path.join(SRC, 'img')):
         if not f.startswith('member-') and not f.startswith('ph-'):
             shutil.copy(os.path.join(SRC, 'img', f), os.path.join(OUT, 'assets', 'img', f))
@@ -285,7 +318,7 @@ def build():
     ctx = dict(SRC=SRC, pcard=pcard, carousel=carousel, car_btns=car_btns, eyebrow=eyebrow, stars=stars, inr=inr, off=off,
                PRODUCTS=PRODUCTS, BY=BY, BEST=BEST, NEW=NEW, COLLECTIONS=COLLECTIONS, COL=COL, HOME=HOME, TESTI=TESTI,
                GHEE_GALLERY=GHEE_GALLERY, img=img, purl=purl, curl=curl, CAT_OF=CAT_OF, LAB=LAB, LABCAT=LABCAT, html=html,
-               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS, PH=PH, MANUFACTURERS=MANUFACTURERS, POLICY=POLICY, INFO=INFO, info_key=info_key, VARIANTS=VARIANTS, GUIDES=GUIDES, CONTACT_EMAIL=CONTACT_EMAIL, jsonld=jsonld, VIDS=VIDS, PLANS=PLANS, JOIN_URL=JOIN_URL, ptype=ptype, srcset=srcset, STORY=STORY)
+               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS, PH=PH, MANUFACTURERS=MANUFACTURERS, POLICY=POLICY, INFO=INFO, info_key=info_key, VARIANTS=VARIANTS, GUIDES=GUIDES, CONTACT_EMAIL=CONTACT_EMAIL, jsonld=jsonld, VIDS=VIDS, PLANS=PLANS, JOIN_URL=JOIN_URL, load_config=load_config, cfg_live=cfg_live, ptype=ptype, srcset=srcset, STORY=STORY)
     n = 0
     for name in sorted(os.listdir(os.path.join(SRC, 'pages'))):
         mod = dict(ctx)
