@@ -5,7 +5,7 @@ import os, re, shutil, html, sys
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SRC)
-from data import PRODUCTS, BY, BEST, NEW, COLLECTIONS, HOME, TESTI, GHEE_GALLERY, img, SITE, LABMAP, NEEDS, PH
+from data import PRODUCTS, BY, BEST, NEW, COLLECTIONS, HOME, TESTI, GHEE_GALLERY, img, SITE, LABMAP, NEEDS, PH, MANUFACTURERS, POLICY, INFO, info_key, VARIANTS, GUIDES, CONTACT_EMAIL
 import json
 
 OUT = os.path.dirname(SRC) if os.path.basename(SRC) == 'source' else os.path.join(os.path.dirname(SRC), 'rosier-site')
@@ -102,7 +102,7 @@ def eyebrow(t, center=False, light=False):
     return f'<p class="eyebrow{c}"><svg class="wheat"><use href="#i-wheat"/></svg> {t}{flip}</p>'
 
 
-NAV = [('home', 'Home', 'index.html'), ('shop', 'Shop', 'shop.html'), ('story', 'Our Story', 'our-story.html'), ('lab', 'Lab Reports', 'lab-reports.html'),
+NAV = [('home', 'Home', 'index.html'), ('shop', 'Shop', 'shop.html'), ('story', 'Our Story', 'our-story.html'), ('standards', 'Our Standards', 'standards.html'),
        ('hampers', 'Hampers', 'hampers.html'), ('club', 'Benefit Club', 'membership.html')]
 LOGO = f'<img src="{HOME["logo"]}" alt="Rosier – Nature\'s Love" width="80" height="58" onerror="this.onerror=null;this.src=\'assets/img/rosier-logo-green.png\'">'
 
@@ -136,7 +136,7 @@ def header(active):
     <a href="cart.html" class="icon-btn" aria-label="Cart" data-open-cart><svg><use href="#i-bag"/></svg><span class="cart-count">0</span></a>
   </div>
 </div></header>
-<div class="tbar"><div class="container tbar__in"><span><svg><use href="#i-flask"/></svg><a href="lab-reports.html">Lab reports for 32 products</a></span><span><svg><use href="#i-mill"/></svg>Bilona ghee · Stone pressed · Stone ground</span><span><svg><use href="#i-truck"/></svg>Delivered across India</span><span><svg><use href="#i-shield"/></svg>Secure payments</span></div></div>
+<div class="tbar"><div class="container tbar__in"><span><svg><use href="#i-flask"/></svg><a href="lab-reports.html">Lab reports for 32 products</a></span><span><svg><use href="#i-shield"/></svg><a href="standards.html#units">Made in FSSAI-licensed units</a></span><span><svg><use href="#i-truck"/></svg>Usually delivered in 3–5 days</span><span><svg><use href="#i-check"/></svg><a href="standards.html#returns">2-day easy returns on damaged or wrong items</a></span></div></div>
 <div class="drawer"><div class="drawer__scrim" data-drawer></div><div class="drawer__panel">
   <div class="drawer__top">{LOGO}<button class="burger" style="display:grid" data-drawer aria-label="Close menu"><svg><use href="#i-close"/></svg></button></div>
   <label class="drawer__search"><svg><use href="#i-search"/></svg><input type="search" placeholder="Search products"></label>
@@ -151,9 +151,9 @@ FOOTER = f'''
     <p>Bringing the wisdom and flavors of Old Bharat to today's tables — that's the Rosier Foods promise.</p>
     <div class="socials"><a href="https://www.facebook.com/rosierfoods/" aria-label="Facebook">f</a><a href="https://www.instagram.com/rosier.foods/" aria-label="Instagram">ig</a><a href="https://www.youtube.com/@RosierFoods" aria-label="YouTube">yt</a></div>
   </div>
-  <div><h4>Helpful Links</h4><ul><li><a href="our-story.html">Our Story</a></li><li><a href="shop.html">All Products</a></li><li><a href="{SITE}/blogs/lets-cook">Recipes</a></li><li><a href="{SITE}/blogs/news">Blog</a></li><li><a href="lab-reports.html">Lab Reports</a></li><li><a href="{SITE}/pages/manufacturer-list">Manufacturer List</a></li><li><a href="https://forms.gle/cJiXL8BdMAhhRE9y8">Career</a></li></ul></div>
+  <div><h4>Helpful Links</h4><ul><li><a href="our-story.html">Our Story</a></li><li><a href="shop.html">All Products</a></li><li><a href="{SITE}/blogs/lets-cook">Recipes</a></li><li><a href="{SITE}/blogs/news">Blog</a></li><li><a href="standards.html">Our Standards</a></li><li><a href="lab-reports.html">Lab Reports</a></li><li><a href="standards.html#units">Manufacturer List</a></li><li><a href="https://forms.gle/cJiXL8BdMAhhRE9y8">Career</a></li></ul></div>
   <div><h4>Policies</h4><ul><li><a href="{SITE}/policies/refund-policy">Refund Policy</a></li><li><a href="{SITE}/policies/shipping-policy">Shipping Policy</a></li><li><a href="{SITE}/pages/privacy-policy">Privacy Policy</a></li><li><a href="{SITE}/pages/terms-of-service">Terms of Service</a></li></ul></div>
-  <div><h4>Contact Us</h4><address>Rosier Foods Pvt. Ltd.<br>Burari, Delhi 110084<br><br>Sector 6, Noida<br>Uttar Pradesh 201301</address><ul style="margin-top:12px"><li><a href="contact.html">Get in touch</a></li></ul></div>
+  <div><h4>Contact Us</h4><address>Rosier Foods Pvt. Ltd.<br>Burari, Delhi 110084<br><br>Sector 6, Noida<br>Uttar Pradesh 201301</address><ul style="margin-top:12px"><li><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></li><li><a href="https://wa.me/919711580581">WhatsApp us</a></li><li><a href="contact.html">Contact form</a></li></ul></div>
   <div class="footer__news"><h4>Subscribe to our Newsletter</h4>
     <form class="news-form" data-demo><input type="tel" placeholder="Enter your phone number" aria-label="Phone number"><input type="email" placeholder="Enter your email" aria-label="Email"><button class="btn btn--primary btn--sm" type="submit">Subscribe</button><p class="form-ok">You're in! We'll keep you posted.</p></form>
     <img class="pay-img" src="{HOME['payments']}&width=480" alt="Accepted payment methods" loading="lazy" onerror="this.style.display='none'">
@@ -161,6 +161,15 @@ FOOTER = f'''
 </div><div class="footer__bottom">© 2026 Rosier Foods. All Rights Reserved.</div></footer>
 <a class="wa-float" href="https://wa.me/919711580581" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg></a>
 <nav class="mnav" aria-label="Quick links"><a href="index.html"><svg><use href="#i-leaf"/></svg>Home</a><a href="shop.html"><svg><use href="#i-bag"/></svg>Shop</a><button data-drawer><svg><use href="#i-search"/></svg>Search</button><a href="membership.html"><svg><use href="#i-badge"/></svg>Club</a><a href="cart.html" data-open-cart><svg><use href="#i-gift"/></svg>Cart<span class="cart-count">0</span></a></nav>'''
+
+
+def jsonld(obj):
+    return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + '</script>'
+
+
+ORG = {"@context": "https://schema.org", "@type": "Organization", "name": "Rosier Foods", "url": SITE,
+       "logo": HOME['logo_green'], "email": CONTACT_EMAIL,
+       "sameAs": ["https://www.facebook.com/rosierfoods/", "https://www.instagram.com/rosier.foods/", "https://www.youtube.com/@RosierFoods"]}
 
 
 def page(fname, title, desc, active, body, after=''):
@@ -181,13 +190,15 @@ def page(fname, title, desc, active, body, after=''):
 <link rel="stylesheet" href="css/bharat.css">
 </head>
 <body data-page="{active}" style="--texture:url('{HOME['texture']}')">
+<a class="skip" href="#main">Skip to content</a>
 {SPRITE}
 {header(active)}
-<main>
+<main id="main">
 {body}
 </main>
 {FOOTER}
 {after}
+{jsonld(ORG) if active == 'home' else ''}
 <script src="js/catalog.js"></script>
 <script src="js/site.js"></script>
 <script src="js/commerce.js"></script>
@@ -220,7 +231,7 @@ def build():
     ctx = dict(SRC=SRC, pcard=pcard, carousel=carousel, car_btns=car_btns, eyebrow=eyebrow, stars=stars, inr=inr, off=off,
                PRODUCTS=PRODUCTS, BY=BY, BEST=BEST, NEW=NEW, COLLECTIONS=COLLECTIONS, COL=COL, HOME=HOME, TESTI=TESTI,
                GHEE_GALLERY=GHEE_GALLERY, img=img, purl=purl, curl=curl, CAT_OF=CAT_OF, LAB=LAB, LABCAT=LABCAT, html=html,
-               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS, PH=PH)
+               SITE=SITE, page=page, LABMAP=LABMAP, NEEDS=NEEDS, PH=PH, MANUFACTURERS=MANUFACTURERS, POLICY=POLICY, INFO=INFO, info_key=info_key, VARIANTS=VARIANTS, GUIDES=GUIDES, CONTACT_EMAIL=CONTACT_EMAIL, jsonld=jsonld)
     n = 0
     for name in sorted(os.listdir(os.path.join(SRC, 'pages'))):
         mod = dict(ctx)

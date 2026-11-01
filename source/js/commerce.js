@@ -118,11 +118,12 @@
     var b = e.target.closest('[data-h]');
     if (b && b.matches('button')) {
       e.preventDefault();
-      if (b.id === 'pdp-add' || b.classList.contains('satc__btn')) {
+      if (b.id === 'pdp-add' || b.classList.contains('satc__btn') || b.hasAttribute('data-buy')) {
         var v = $('.variant.on'), q = parseInt(($('#pdp-qty') || {}).value, 10) || 1;
         add(b.dataset.h, q, v ? v.textContent : null, v ? +v.dataset.price : null, v ? +v.dataset.mrp : null);
       } else add(b.dataset.h, 1);
       b.classList.add('pop'); setTimeout(function () { b.classList.remove('pop'); }, 500);
+      if (b.hasAttribute('data-buy')) { closeDrawer(); location.href = 'cart.html'; }
     }
     var o = e.target.closest('[data-open-cart]'); if (o) { e.preventDefault(); openDrawer(); }
   });

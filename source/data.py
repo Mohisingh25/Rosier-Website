@@ -260,3 +260,130 @@ PH = {
     'hamper_gift': S + 'rosier-foods-lifestyle-hamper-1260378722.png?v=1790781340',
 }
 GHEE_GALLERY = GHEE_GALLERY[:2] + [PH['bilona_pot'], PH['vs_regular'], PH['art_of_slow'], PH['tested'], PH['ghee_spread'], PH['family_table']]
+
+# ======================= Audit pass: verified facts =======================
+CONTACT_EMAIL = 'care@rosierfoods.com'   # from the live Refund Policy
+WHATSAPP = '919711580581'
+
+# From rosierfoods.com/pages/manufacturer-list (batch-code letter = first two chars of batch no.)
+MANUFACTURERS = [
+    ('Rosier Foods Private Limited', 'G', '62, Udyog Vihar Phase 1, Gurugram, Haryana 122022', '10825005000070'),
+    ('Rosier Foods Private Limited', 'B', 'Village Garwa, Near Canal Garwa, Morka Road, Garwa, Haryana', '10825002000003'),
+    ('Rosier Foods Private Limited', 'M', 'Vill. Gesupur Janubi, Kithore, Mawana, Meerut, Uttar Pradesh', '12724051000040'),
+    ('Rosier Foods Private Limited', 'S', 'Plot 4/66, Site-4, Industrial Area, Sahibabad, Ghaziabad, Uttar Pradesh 201010', '12726999000238'),
+    ('Mapani Food Products', 'J', 'J-822, RIICO Industrial Area, Sitapura, Jaipur, Rajasthan 302022', '12221027000524'),
+    ('Graminn Organik', 'N', 'Plot 21, Block-D, Durga Industrial Park, Sahibabad, Ghaziabad, Uttar Pradesh 201005', '12725999000482'),
+]
+
+# From the live Shipping & Refund policies (1 Nov 2026)
+POLICY = dict(
+    delivery='Standard shipping across India, usually delivered in 3–5 days depending on your location.',
+    returns='Returns or exchanges within 2 days of delivery if the product is damaged, wrong, has a broken seal or arrived expired. It must be unused, in original packaging, with the invoice.',
+    unboxing='Please record an unboxing video. Any order discrepancy must be reported within 48 hours of delivery with that video.',
+    sale='Items bought during a sale or from the gifting category are not eligible for return or refund.',
+    cancel='You can cancel any order that has not shipped yet, for a full refund.',
+)
+
+# Per-product facts, written from each product's own description on rosierfoods.com
+INFO = {
+    'ghee': dict(why=['Made from curd, not milk or malai', 'Slow-churned the traditional Bilona way', 'From free-grazing Gir cows'],
+                 about='Our Gir Cow A2 Ghee comes from curd using the traditional Bilona method, slow-churned and never mass-produced.',
+                 use='Stir it into dal, drizzle it on hot rice or use it for everyday cooking.', ing='A2 milk fat, natural yoghurt'),
+    'amla': dict(why=['Made with A2 desi cow ghee', 'Sweetened with desi khand', 'Hand-picked amla'],
+                 about='Our Amlaprash brings together amla, A2 desi cow ghee and desi khand, following a traditional Ayurvedic-style recipe.',
+                 use='Take a spoonful daily, as a family ritual through the season.'),
+    'honey': dict(why=['Multi-floral wild forest honey', 'Collected from the Himalayan forests', 'No added sugar'],
+                  about='A multi-floral honey, responsibly collected from bees feeding on wild forest flower nectar in the Himalayas.',
+                  use='In warm water, on toast, in desserts or as a natural sweetener.', ing='Raw honey', store='Keep in a cool, dry place with the lid tightly shut. Do not refrigerate.'),
+    'oil': dict(why=['Stone cold pressed', 'No chemicals or solvents used', 'Unrefined'],
+                about='Cold pressed and extracted without chemicals or solvents, so the natural flavour and aroma of the seed stay intact.',
+                use='Everyday Indian cooking, tadka, sautéing and frying.'),
+    'olive': dict(why=['Cold-processed with minimal heat', 'Traditional extraction', 'Made from high-quality olives'],
+                  about='Crafted using traditional extraction methods and cold-processed to keep its authentic taste, aroma and flavour.',
+                  use='Everyday cooking, drizzling and finishing dishes.'),
+    'khapli': dict(why=['100% non-GMO Emmer (Khapli) wheat', 'Stone ground in a traditional chakki', 'A heritage grain'],
+                   about='Milled from 100% non-GMO Emmer wheat, a heritage grain, and stone ground using the traditional chakki method.',
+                   use='Rotis, parathas and everyday Indian breads.'),
+    'multigrain': dict(why=['Built on 50% Khapli wheat', 'Blended with jowar, maize, barley, ragi and soy', 'No additives, no fillers'],
+                       about='Built on Khapli wheat (50%) and blended with jowar, maize, barley, ragi and soy, stone-ground in traditional chakki style.',
+                       use='Softer, more filling rotis for the whole family.'),
+    'ragi': dict(why=['Finger millet flour', 'Stone-ground in traditional chakkis', 'Earthy, nutty taste'],
+                 about='Our Ragi (finger millet) is stone-ground in traditional chakkis, a slow, cool grinding process that keeps the whole grain intact.',
+                 use='Rotis, dosas, porridge and baking.'),
+    'jowar': dict(why=['100% jowar', 'Stone-ground in traditional chakkis', 'Naturally gluten-free grain'],
+                  about="Made from 100% jowar and stone-ground to retain the grain's natural fibre and character.",
+                  use='Bhakri and rotis, as a lighter rotation alongside wheat.'),
+    'sattu': dict(why=['Made from roasted Bengal gram', 'Stone-ground, chakki method', 'No elaborate prep needed'],
+                  about='Made from roasted Bengal gram and stone-ground using traditional chakki methods.',
+                  use='A quick sattu drink, parathas or a filling meal.'),
+    'oats': dict(why=['High protein oats', 'Ready in about 30 seconds', 'Made for busy mornings'],
+                 about="Prepared to give good protein and fibre support, and ready to eat on the go. It takes about 30 seconds to make.",
+                 use='Breakfast at home, at work or on the go.'),
+    'nutbutter': dict(why=['Almonds, peanuts and cashews', 'No unnecessary additives, fillers or preservatives', '27 g protein per 100 g (as per lab report)'],
+                      about='A blend of almonds, peanuts and cashews, crafted without unnecessary additives, fillers or preservatives.',
+                      use='On toast, in smoothies, with fruit or straight from the jar.'),
+    'almond': dict(why=['Made with 100% roasted almonds', 'No added sugar or preservatives', 'Crunchy texture'],
+                   about='Crafted from premium roasted almonds for a rich, nutty flavour and a crunch in every bite.',
+                   use='On toast, smoothies, desserts or as a snack.', ing='Almonds'),
+    'pickle': dict(why=['Naturally sun-dried', 'Traditional Indian spices', 'No added vinegar or preservatives'],
+                   about='Made from farm-fresh produce, slow sun-dried and blended with traditional spices, the way homemade pickles are made.',
+                   use='With parathas, dal-chawal, khichdi and every Indian meal.'),
+    'pickle2': dict(why=['Natural sun-dried', 'Traditional Indian spices', 'Made the way pickles are made at home'],
+                    about='A sun-dried pickle made with traditional Indian spices, for that homemade taste.',
+                    use='With parathas, dal-chawal, khichdi and every Indian meal.'),
+    'oats2': dict(why=['High protein oats', 'Made for busy mornings'],
+                  about="Part of Rosier's High Protein Oats range, made so you never have to skip breakfast.",
+                  use='Breakfast at home, at work or on the go.'),
+    'oilbasic': dict(why=['Stone pressed', 'Unrefined', 'Lab report published'],
+                     about='Stone pressed the traditional way, part of our range of unrefined cooking oils.',
+                     use='Everyday Indian cooking.'),
+    'generic': dict(why=['Traditional methods', 'No refined oils, no additives', 'Delivered across India'],
+                    about="Part of Rosier Foods' range of pure, traditional foods.",
+                    use=''),
+}
+def info_key(h):
+    if h.startswith('a2-desi'): return 'ghee'
+    if h == 'amlaprash': return 'amla'
+    if 'honey' in h: return 'honey'
+    if 'olive' in h: return 'olive'
+    if 'sesame' in h: return 'oilbasic'
+    if 'oil' in h: return 'oil'
+    if 'khapli-emmer' in h: return 'khapli'
+    if 'multigrain' in h: return 'multigrain'
+    if 'ragi' in h: return 'ragi'
+    if 'jowar' in h: return 'jowar'
+    if 'sattu' in h: return 'sattu'
+    if h in ('instant-oats-banana-cinnamon', 'instant-oats-cafe-mocha', 'instant-oats-oats-double-chocolate', 'high-protein-oats-mango-tango'): return 'oats'
+    if 'oats' in h: return 'oats2'
+    if 'almond' in h: return 'almond'
+    if 'nut-butter' in h: return 'nutbutter'
+    if h.startswith(('mango-pickle', 'green-chilly-pickle', 'red-chilly-pickle')): return 'pickle'
+    if 'pickle' in h: return 'pickle2'
+    return 'generic'
+
+# Live variant lists (sold-out sizes shown as unavailable)
+VARIANTS = {
+    'amlaprash': [('500 g', 494.25, 659, 1), ('1000 g', 936.75, 1249, 0), ('350 g', 494.25, 659, 0)],
+    'khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health': [('2 kg', 399.20, 499, 1), ('5 kg', 899.25, 1199, 1)],
+    'gond-laddoo': [('200 g', 297.50, 350, 1), ('500 g', 624.00, 780, 1)],
+}
+
+# Shop by need: plain, non-medical labels
+NEEDS = [
+    ('staples', 'Daily staples', 'Bilona ghee and stone-ground Khapli atta', ['a2-desi-cow-ghee-hand-churned-from-curd', 'khapli-emmer-wheat-atta-stoneground-high-fiber-for-gut-health', 'multigrain-atta-5kg', 'jowar-atta-1kg']),
+    ('winter', 'Winter favourites', 'Amlaprash, raw honey and gond laddoo', ['amlaprash', 'wild-flower-honey', 'gond-laddoo', 'wild-forest-honey-pack-of-2']),
+    ('protein', 'Protein breakfast', 'High protein oats and nut butters', ['high-protein-oats-assorted-pack', 'instant-oats-cafe-mocha', 'nut-butter-dark-chocolate', 'almond-butter-crunchy']),
+    ('cooking', 'Everyday cooking', 'Stone pressed oils, never refined', ['wood-pressed-black-mustard-oil', 'groundnut-oil', 'stone-pressed-yellow-mustard-oil', 'wood-pressed-coconut-oil']),
+    ('millets', 'Millets & heritage grains', 'Ragi, jowar, bajra and sattu', ['ragi-atta-1kg', 'jowar-atta-1kg', 'bajra-atta', 'sattu-atta-1kg']),
+    ('taste', 'Ghar jaisa taste', 'Sun-dried pickles, made like home', ['pickle-tasting-set', 'mango-pickle', 'green-chilly-pickle', 'sweet-lemon-pickle']),
+]
+
+A = 'https://www.rosierfoods.com/cdn/shop/articles/'
+GUIDES = [
+    ('A2 Ghee vs Regular Ghee: What Is A2 Ghee and How Is It Different?', '/blogs/news/a2-ghee-vs-regular-ghee', A + 'blog-banner.png?format=webp&v=1790145891', 'Buying guide'),
+    ("A1 vs A2 Ghee: What's the Primary Difference?", '/blogs/news/a1-vs-a2-ghee', A + 'blog-b1_68fea786-1e6c-4a35-b1d0-6cd62b6def6a.png?format=webp&v=1790594121', 'Buying guide'),
+    ('Benefits of Khapli Atta: Why This Ancient Wheat Should Be in Your Kitchen', '/blogs/news/benefits-of-khapli-atta', A + 'blog_1.png?format=webp&v=1791274212', 'Ingredient guide'),
+    ('Breaking Down Your Favourite Oil: What You Need to Know', '/blogs/news/black-mustard-oil-guide', A + 'oil_mustard_black_djwchudbc_jpg.jpg?format=webp&v=1792581835', 'Ingredient guide'),
+    ('Gajar Ka Halwa', '/blogs/lets-cook/gajar-ka-halwa-1', A + 'GAJAR_KA_HALWA_b06f51df-ac70-42a0-bf12-61e8d4825e60.png?format=webp&v=1790243856', 'Recipe'),
+    ('Eggless Ghee Cake', '/blogs/lets-cook/indian-tacos', A + 'eggless_ghee.png?format=webp&v=1712257622', 'Recipe'),
+]
